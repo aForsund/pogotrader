@@ -1,6 +1,6 @@
 package org.example.pogotrader.repository;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 import org.example.pogotrader.model.Type;
 import org.springframework.data.repository.CrudRepository;
@@ -11,6 +11,8 @@ public interface TypeRepository extends CrudRepository<Type, Integer> {
 
   Type findById(int id);
 
-  ArrayList<Type> findAll();
+  HashSet<Type> findAll();
+
+  boolean existsByName(String name);
 
 }

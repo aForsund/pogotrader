@@ -1,7 +1,7 @@
 package org.example.pogotrader.model;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 
@@ -9,7 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Type {
@@ -20,10 +21,13 @@ public class Type {
   private String name;
   private String properties;
 
-  @OneToMany
-  @JoinTable(name = "weak_to", joinColumns = { @JoinColumn(name = "id") }, inverseJoinColumns = {
-      @JoinColumn(name = "name") })
-  private List<Type> weakTo = new ArrayList<>();
+  @ManyToOne
+  private Type parent;
+
+  @OneToMany(mapped by="parent")
+  @JoinTable(name = "weak_to", joinColumns = { @JoinColumn(name = "name") }, inverseJoinColumns = {
+      @JoinColumn(name = "weakTo") })
+  private Set<Type> weakTo = new HashSet<>();
   // private HashSet<Type> resistantTo;
   // private HashSet<Type> immuneTo;
 
@@ -61,18 +65,18 @@ public class Type {
 
   @Override
   public String toString() {
-    return this.name + " - Weak against: " + this.weakTo;
+    return this.name;
   }
 
   /*
    * public void setWeakness(HashSet<Type> typeSet) { this.weakAgainst = typeSet;
    * }
    */
-  public void addWeakTo(Type type) {
-    this.weakTo.add(type);
+  public void addWeakTo(Set<Type> listOfTypes) {
+    this.weakTo = listOfTypes;
   }
 
-  public List<Type> getWeakTo() {
+  public Set<Type> getWeakTo() {
     return this.weakTo;
   }
 

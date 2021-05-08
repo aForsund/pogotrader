@@ -1,5 +1,10 @@
 package org.example.pogotrader.data;
 
+import java.sql.ResultSet;
+
+import javax.sql.DataSource;
+import java.sql.DatabaseMetaData;
+
 import org.example.pogotrader.model.PokedexEntry;
 import org.example.pogotrader.model.Type;
 import org.slf4j.Logger;
@@ -34,8 +39,31 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
           .forEach(pokemon -> System.out.println(pokemon));
 
       jdbcTemplate.query("SELECT name FROM type", (rs, row) -> new Type(rs.getString(1)))
-          .forEach(type -> System.out.println(type));
+          .forEach(type -> System.out.println(type + " weak to: " + type.getWeakTo().toString()));
 
+    }
+    try {
+      showTables();
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
+
+  @Autowired
+  protected DataSource dataSource;
+
+  public void showTables() throws Exception {
+    DatabaseMetaData metaData = dataSource.getConnection().getMetaData();
+    ResultSet tables = metaData.getTables(null, null, null, new String[] { "TABLE" });
+    while (tables.next()) {
+      String tableName = tables.getString("TABLE_NAME");
+      System.out.println(tableName);
+      ResultSet columns = metaData.getColumns(null, null, tableName, "%");
+      while (columns.next()) {
+        String columnName = columns.getString("COLUMN_NAME");
+        System.out.println("\t" + columnName);
+      }
     }
   }
 }

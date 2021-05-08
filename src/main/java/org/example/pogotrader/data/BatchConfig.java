@@ -62,12 +62,12 @@ public class BatchConfig {
   }
 
   @Bean
-  FlatFileItemReader<TypePropertiesInput> typePropertiesReader() {
-    return new FlatFileItemReaderBuilder<TypePropertiesInput>().name("TypePropertiesReader")
+  public FlatFileItemReader<TypeInput> typePropertiesReader() {
+    return new FlatFileItemReaderBuilder<TypeInput>().name("TypeItemReader")
         .resource(new ClassPathResource("typeProperties.csv")).delimited().names(new String[] { "name", "weakTo" })
-        .fieldSetMapper(new BeanWrapperFieldSetMapper<TypePropertiesInput>() {
+        .fieldSetMapper(new BeanWrapperFieldSetMapper<TypeInput>() {
           {
-            setTargetType(TypePropertiesInput.class);
+            setTargetType(TypeInput.class);
             setDistanceLimit(2);
           }
         }).build();
@@ -81,11 +81,6 @@ public class BatchConfig {
   @Bean
   public TypeProcessor typeProcessor() {
     return new TypeProcessor();
-  }
-
-  @Bean
-  TypePropertiesProcessor typePropertiesProcessor() {
-    return new TypePropertiesProcessor();
   }
 
   @Bean
@@ -108,30 +103,31 @@ public class BatchConfig {
 
   }
 
+  /*
+   * @Bean JdbcBatchItemWriter<Type> typePropertiesWriter(DataSource dataSource) {
+   * return new JdbcBatchItemWriterBuilder<Type>()
+   * .itemSqlParameterSourceProvider(new
+   * BeanPropertyItemSqlParameterSourceProvider<>())
+   * .sql("INSERT INTO type (weakTo) VALUES (:weakTo)").dataSource(dataSource).
+   * build(); }
+   */
   @Bean
-  JdbcBatchItemWriter<Type> typePropertiesWriter(DataSource dataSource) {
-    return new JdbcBatchItemWriterBuilder<Type>()
-        .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
-        .sql("INSERT INTO type (weakTo) VALUES (:weakTo)").dataSource(dataSource).build();
-  }
-
-  @Bean
-  public Job readData(JobCompletionNotificationListener listener, Step importTypes, Step populateTypeProperties,
+  public Job readData(JobCompletionNotificationListener listener, Step importTypes, Step importTypeProperties,
       Step step1) {
     return jobBuilderFactory.get("importUserJob").incrementer(new RunIdIncrementer()).listener(listener)
-        .start(importTypes).next(populateTypeProperties).next(step1).build();
+        .start(importTypes).next(importTypeProperties).next(step1).build();
   }
 
   @Bean
   public Step importTypes(JdbcBatchItemWriter<Type> writer) {
-    return stepBuilderFactory.get("importTypes").<TypeInput, Type>chunk(10).reader(typeReader())
+    return stepBuilderFactory.get("importTypes").<TypeInput, Type>chunk(18).reader(typeReader())
         .processor(typeProcessor()).writer(writer).build();
   }
 
   @Bean
-  Step populateTypeProperties(JdbcBatchItemWriter<Type> propertiesWriter) {
-    return stepBuilderFactory.get("populateTypeProperties").<TypePropertiesInput, Type>chunk(10)
-        .reader(typePropertiesReader()).processor(typePropertiesProcessor()).writer(propertiesWriter).build();
+  public Step importTypeProperties(JdbcBatchItemWriter<Type> writer) {
+    return stepBuilderFactory.get("importTypeProperties").<TypeInput, Type>chunk(18).reader(typePropertiesReader())
+        .processor(typeProcessor()).writer(writer).build();
   }
 
   @Bean
