@@ -22,10 +22,47 @@ public class Type {
 
   private String name;
 
-  @JsonIgnoreProperties({ "weakTo" })
+  // Avoid infinite recursion when creating JSON response
+  @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
+      "notEffectiveAgainst" })
   @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(name = "weak_to")
   private Set<Type> weakTo = new HashSet<>();
+
+  // Avoid infinite recursion when creating JSON response
+  @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
+      "notEffectiveAgainst" })
+  @ManyToMany(cascade = CascadeType.ALL)
+  @JoinTable(name = "strong_against")
+  private Set<Type> strongAgainst = new HashSet<>();
+
+  // Avoid infinite recursion when creating JSON response
+  @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
+      "notEffectiveAgainst" })
+  @ManyToMany(cascade = CascadeType.ALL)
+  @JoinTable(name = "resistant_to")
+  private Set<Type> resistantTo = new HashSet<>();
+
+  // Avoid infinite recursion when creating JSON response
+  @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
+      "notEffectiveAgainst" })
+  @ManyToMany(cascade = CascadeType.ALL)
+  @JoinTable(name = "not_very_effective_against")
+  private Set<Type> notVeryEffectiveAgainst = new HashSet<>();
+
+  // Avoid infinite recursion when creating JSON response
+  @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
+      "notEffectiveAgainst" })
+  @ManyToMany(cascade = CascadeType.ALL)
+  @JoinTable(name = "immune_to")
+  private Set<Type> immuneTo = new HashSet<>();
+
+  // Avoid infinite recursion when creating JSON response
+  @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
+      "notEffectiveAgainst" })
+  @ManyToMany(cascade = CascadeType.ALL)
+  @JoinTable(name = "not_effective_against")
+  private Set<Type> notEffectiveAgainst = new HashSet<>();
 
   public Type() {
   }
@@ -51,15 +88,53 @@ public class Type {
     return "Type: " + this.name;
   }
 
-  public void setWeakTo(Set<Type> listOfTypes) {
-    this.weakTo = listOfTypes;
-  }
-
   public Set<Type> getWeakTo() {
     return this.weakTo;
   }
 
-  // public HashSet<Type> resistantTo() { return this.resistantTo; }
+  public void addWeakTo(Type type) {
+    this.weakTo.add(type);
+  }
+
+  public void addStrongAgainst(Type type) {
+    this.strongAgainst.add(type);
+  }
+
+  public Set<Type> getStrongAgainst() {
+    return this.strongAgainst;
+  }
+
+  public void addResistantTo(Type type) {
+    this.resistantTo.add(type);
+  }
+
+  public Set<Type> getResistantTo() {
+    return this.resistantTo;
+  }
+
+  public void addNotVeryEffectiveAgainst(Type type) {
+    this.notVeryEffectiveAgainst.add(type);
+  }
+
+  public Set<Type> getNotVeryEffectiveAgainst() {
+    return this.notVeryEffectiveAgainst;
+  }
+
+  public void addImmuneTo(Type type) {
+    this.immuneTo.add(type);
+  }
+
+  public Set<Type> getImmuneTo() {
+    return this.immuneTo;
+  }
+
+  public void addNotEffectiveAgainst(Type type) {
+    this.notEffectiveAgainst.add(type);
+  }
+
+  public Set<Type> getNotEffectiveAgainst() {
+    return this.notEffectiveAgainst;
+  }
 
   // public HashSet<Type> immuneTo() { return this.immuneTo; }
 

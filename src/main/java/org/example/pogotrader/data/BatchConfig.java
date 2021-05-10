@@ -64,7 +64,8 @@ public class BatchConfig {
   @Bean
   public FlatFileItemReader<TypeInput> typePropertiesReader() {
     return new FlatFileItemReaderBuilder<TypeInput>().name("TypeItemReader")
-        .resource(new ClassPathResource("typeProperties.csv")).delimited().names(new String[] { "name", "weak_to" })
+        .resource(new ClassPathResource("typeProperties.csv")).delimited()
+        .names(new String[] { "name", "weak_to", "resistant_to", "immune_to" })
         .fieldSetMapper(new BeanWrapperFieldSetMapper<TypeInput>() {
           {
             setTargetType(TypeInput.class);

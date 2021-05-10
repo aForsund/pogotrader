@@ -2,8 +2,6 @@ package org.example.pogotrader.data;
 
 import org.example.pogotrader.model.Type;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -16,12 +14,8 @@ public class TypeProcessor implements ItemProcessor<TypeInput, Type> {
   @Autowired
   private TypeService typeService;
 
-  private Set<Type> weakTo;
-
   @Override
   public Type process(final TypeInput typeInput) throws Exception {
-
-    weakTo = new HashSet<>();
 
     System.out.println("Hello from TypeProcessor");
     System.out.println("checking if " + typeInput.getName() + " exists: " + typeService.exists(typeInput.getName()));
@@ -37,20 +31,30 @@ public class TypeProcessor implements ItemProcessor<TypeInput, Type> {
     }
 
     System.out.println("I'm now accessing: " + type);
-    if (typeInput.getWeakTo() != null) {
+
+    if (!(typeInput.getWeakTo().isEmpty())) {
 
       Arrays.stream(typeInput.getWeakTo().split("-")).forEach(item -> {
-        System.out.println(item);
-        weakTo.add(typeService.findByName(item));
-
+        type.addWeakTo(typeService.findByName(item));
+        typeService.findByName(item).addStrongAgainst(type);
       });
 
     }
 
-    type.setWeakTo(weakTo);
+    if (!(typeInput.getResistantTo().isEmpty())) {
 
-    System.out.println("Type object: " + type + " - weak to: " + type.getWeakTo());
+      Arrays.stream(typeInput.getResistantTo().split("-")).forEach(item -> {
+        type.addResistantTo(typeService.findByName(item));
+        typeService.findByName(item).addNotVeryEffectiveAgainst(type);
+      });
+    }
 
+    if (!(typeInput.getImmuneTo().isEmpty())) {
+      Arrays.stream(typeInput.getImmuneTo().split("-")).forEach(item -> {
+        type.addImmuneTo(typeService.findByName(item));
+        typeService.findByName(item).addNotEffectiveAgainst(type);
+      });
+    }
     return type;
 
   }
