@@ -9,9 +9,11 @@ public interface TypeRepository extends CrudRepository<Type, Integer> {
 
   Type findByName(String name);
 
-  Type findById(int id);
-
   HashSet<Type> findAll();
+
+  // HashSet<Type> findByNameGetWeakTo(String name);
+
+  // HashSet<Type> findWeakTo(String name);
 
   boolean existsByName(String name);
 

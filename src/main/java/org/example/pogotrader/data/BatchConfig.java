@@ -64,7 +64,7 @@ public class BatchConfig {
   @Bean
   public FlatFileItemReader<TypeInput> typePropertiesReader() {
     return new FlatFileItemReaderBuilder<TypeInput>().name("TypeItemReader")
-        .resource(new ClassPathResource("typeProperties.csv")).delimited().names(new String[] { "name", "weakTo" })
+        .resource(new ClassPathResource("typeProperties.csv")).delimited().names(new String[] { "name", "weak_to" })
         .fieldSetMapper(new BeanWrapperFieldSetMapper<TypeInput>() {
           {
             setTargetType(TypeInput.class);
@@ -99,7 +99,10 @@ public class BatchConfig {
   public JdbcBatchItemWriter<Type> typeWriter(DataSource dataSource) {
     return new JdbcBatchItemWriterBuilder<Type>()
         .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
-        .sql("INSERT INTO type (name) VALUES (:name)").dataSource(dataSource).build();
+        .sql("MERGE INTO type AS t" + " USING (" + " VALUES (:name) ) AS s (name)" + " ON t.name=s.name"
+            + " WHEN MATCHED THEN" + " UPDATE SET t.name=s.name" + " WHEN NOT MATCHED THEN"
+            + " INSERT (name) VALUES (:name)")
+        .dataSource(dataSource).build();
 
   }
 

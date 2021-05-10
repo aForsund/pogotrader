@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import javax.sql.DataSource;
 import java.sql.DatabaseMetaData;
 
-import org.example.pogotrader.model.PokedexEntry;
+//import org.example.pogotrader.model.PokedexEntry;
 import org.example.pogotrader.model.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,13 +33,8 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
     if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
       log.info("!!! JOB FINISHED! Time to verify the results");
 
-      jdbcTemplate
-          .query("SELECT number, name, id FROM pokedex_entry",
-              (rs, row) -> new PokedexEntry(rs.getInt(3), rs.getInt(1), rs.getString(2)))
-          .forEach(pokemon -> System.out.println(pokemon));
-
       jdbcTemplate.query("SELECT name FROM type", (rs, row) -> new Type(rs.getString(1)))
-          .forEach(type -> System.out.println(type + " weak to: " + type.getWeakTo().toString()));
+          .forEach(type -> System.out.println(type));
 
     }
     try {

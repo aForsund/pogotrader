@@ -3,16 +3,20 @@ package org.example.pogotrader.data;
 import org.example.pogotrader.model.Type;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
+
+import javax.transaction.Transactional;
 
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 
+@Transactional
 public class TypeProcessor implements ItemProcessor<TypeInput, Type> {
 
   @Autowired
   private TypeService typeService;
 
-  private HashSet<Type> weakTo;
+  private Set<Type> weakTo;
 
   @Override
   public Type process(final TypeInput typeInput) throws Exception {
@@ -25,9 +29,11 @@ public class TypeProcessor implements ItemProcessor<TypeInput, Type> {
     Type type;
     if (typeService.exists(typeInput.getName())) {
       type = typeService.findByName(typeInput.getName());
+
     } else {
       type = new Type();
       type.setName(typeInput.getName());
+      return type;
     }
 
     System.out.println("I'm now accessing: " + type);
@@ -40,7 +46,9 @@ public class TypeProcessor implements ItemProcessor<TypeInput, Type> {
       });
 
     }
-    type.addWeakTo(weakTo);
+
+    type.setWeakTo(weakTo);
+
     System.out.println("Type object: " + type + " - weak to: " + type.getWeakTo());
 
     return type;

@@ -2,15 +2,16 @@ package org.example.pogotrader.model;
 
 import java.util.Set;
 import java.util.HashSet;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Type {
@@ -18,21 +19,15 @@ public class Type {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
+
   private String name;
-  private String properties;
 
-  @ManyToOne
-  private Type parent;
-
-  @OneToMany(mapped by="parent")
-  @JoinTable(name = "weak_to", joinColumns = { @JoinColumn(name = "name") }, inverseJoinColumns = {
-      @JoinColumn(name = "weakTo") })
+  @JsonIgnoreProperties({ "weakTo" })
+  @ManyToMany(cascade = CascadeType.ALL)
+  @JoinTable(name = "weak_to")
   private Set<Type> weakTo = new HashSet<>();
-  // private HashSet<Type> resistantTo;
-  // private HashSet<Type> immuneTo;
 
   public Type() {
-
   }
 
   public Type(String name) {
@@ -47,32 +42,16 @@ public class Type {
     return this.name;
   }
 
-  public void setProperties(String properties) {
-    this.properties = properties;
-  }
-
-  public String getProperties() {
-    return this.properties;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
   public int getId() {
     return this.id;
   }
 
   @Override
   public String toString() {
-    return this.name;
+    return "Type: " + this.name;
   }
 
-  /*
-   * public void setWeakness(HashSet<Type> typeSet) { this.weakAgainst = typeSet;
-   * }
-   */
-  public void addWeakTo(Set<Type> listOfTypes) {
+  public void setWeakTo(Set<Type> listOfTypes) {
     this.weakTo = listOfTypes;
   }
 
@@ -86,7 +65,32 @@ public class Type {
 
   @Override
   public boolean equals(Object compared) {
+    if (this == compared) {
+      return true;
+    }
+
+    if (!(compared instanceof Type)) {
+      return false;
+    }
+
+    Type comparedType = (Type) compared;
+    if (comparedType.getName().equals(this.name)) {
+      return true;
+    }
     return false;
+  }
+
+  @Override
+  public int hashCode() {
+    int hashCode;
+    try {
+      hashCode = Integer.parseInt(this.name);
+
+    } catch (NumberFormatException e) {
+      hashCode = 0;
+    }
+    return hashCode;
+
   }
 
 }
