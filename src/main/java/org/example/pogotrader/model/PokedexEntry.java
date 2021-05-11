@@ -2,6 +2,7 @@ package org.example.pogotrader.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class PokedexEntry {
@@ -10,24 +11,36 @@ public class PokedexEntry {
   private int id;
   private int number;
   private int code;
-  private int nextEvolution;
-  private int prevEvolution;
+  @OneToOne
+  private PokedexEntry nextEvolution;
+  @OneToOne
+  private PokedexEntry prevEvolution;
   private String name;
-  private String typeOne;
-  private String typeTwo;
+
+  @OneToOne
+  private Type typeOne;
+
+  @OneToOne
+  private Type typeTwo;
+
   private String color;
   private int attack;
   private int defense;
   private int health;
   private int combatPower;
-  private int region;
-  private boolean legendary;
-  private boolean mythical;
-  private boolean mega;
-  private boolean shadow;
-  private boolean shiny;
+
+  @OneToOne
+  private Region region;
+  private boolean isLegendary;
+  private boolean isMythical;
+  private boolean hasMega;
+  private boolean isShadow;
+  private boolean hasShiny;
   private double height;
   private double weight;
+
+  @OneToOne
+  private MoveSet moveSet;
 
   public PokedexEntry() {
   }
@@ -67,19 +80,19 @@ public class PokedexEntry {
     this.id = id;
   }
 
-  public int getNextEvolution() {
-    return nextEvolution;
+  public PokedexEntry getNextEvolution() {
+    return this.nextEvolution;
   }
 
-  public void setNextEvolution(int nextEvolution) {
+  public void setNextEvolution(PokedexEntry nextEvolution) {
     this.nextEvolution = nextEvolution;
   }
 
-  public int getPrevEvolution() {
+  public PokedexEntry getPreviousEvolution() {
     return prevEvolution;
   }
 
-  public void setPrevEvolution(int prevEvolution) {
+  public void setPrevEvolution(PokedexEntry prevEvolution) {
     this.prevEvolution = prevEvolution;
   }
 
@@ -91,19 +104,19 @@ public class PokedexEntry {
     this.name = name;
   }
 
-  public String getTypeOne() {
+  public Type getTypeOne() {
     return typeOne;
   }
 
-  public void setTypeOne(String typeOne) {
+  public void setTypeOne(Type typeOne) {
     this.typeOne = typeOne;
   }
 
-  public String getTypeTwo() {
+  public Type getTypeTwo() {
     return typeTwo;
   }
 
-  public void setTypeTwo(String typeTwo) {
+  public void setTypeTwo(Type typeTwo) {
     this.typeTwo = typeTwo;
   }
 
@@ -147,52 +160,52 @@ public class PokedexEntry {
     this.combatPower = maxCP;
   }
 
-  public int getRegion() {
-    return region;
+  public Region getRegion() {
+    return this.region;
   }
 
-  public void setRegion(int region) {
+  public void setRegion(Region region) {
     this.region = region;
   }
 
   public boolean isLegendary() {
-    return legendary;
+    return this.isLegendary;
   }
 
   public void setLegendary(boolean legendary) {
-    this.legendary = legendary;
+    this.isLegendary = legendary;
   }
 
   public boolean isMythical() {
-    return mythical;
+    return this.isMythical;
   }
 
   public void setMythical(boolean mythical) {
-    this.mythical = mythical;
+    this.isMythical = mythical;
   }
 
   public boolean isMega() {
-    return mega;
+    return hasMega;
   }
 
   public void setMega(boolean mega) {
-    this.mega = mega;
+    this.hasMega = mega;
   }
 
   public boolean isShadow() {
-    return shadow;
+    return this.isShadow;
   }
 
   public void setShadow(boolean shadow) {
-    this.shadow = shadow;
+    this.isShadow = shadow;
   }
 
-  public boolean isShiny() {
-    return shiny;
+  public boolean hasShiny() {
+    return this.hasShiny;
   }
 
   public void setShiny(boolean shiny) {
-    this.shiny = shiny;
+    this.hasShiny = shiny;
   }
 
   public double getHeight() {
@@ -209,6 +222,14 @@ public class PokedexEntry {
 
   public void setWeight(double weight) {
     this.weight = weight;
+  }
+
+  public void setMoveSet(MoveSet moveSet) {
+    this.moveSet = moveSet;
+  }
+
+  public MoveSet getMoveSet() {
+    return this.moveSet;
   }
 
   @Override

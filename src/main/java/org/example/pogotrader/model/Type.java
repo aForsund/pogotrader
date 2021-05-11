@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -63,6 +65,9 @@ public class Type {
   @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(name = "not_effective_against")
   private Set<Type> notEffectiveAgainst = new HashSet<>();
+
+  @OneToMany
+  private Set<Move> moves = new HashSet<>();
 
   public Type() {
   }
@@ -136,6 +141,13 @@ public class Type {
     return this.notEffectiveAgainst;
   }
 
+  public void addMove(Move move) {
+    this.moves.add(move);
+  }
+
+  public Set<Move> getMoves() {
+    return this.moves;
+  }
   // public HashSet<Type> immuneTo() { return this.immuneTo; }
 
   @Override

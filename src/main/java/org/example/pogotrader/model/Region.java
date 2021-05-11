@@ -1,7 +1,5 @@
 package org.example.pogotrader.model;
 
-import java.util.ArrayList;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -9,31 +7,25 @@ import javax.persistence.Id;
 public class Region {
 
   @Id
-  private int number;
+  private int id;
   private String name;
 
-  private ArrayList<PokedexEntry> entries;
-
-  public Region(int number, String name) {
-    this.entries = new ArrayList<>();
-    this.number = number;
-    this.name = name;
+  public Region() {
   }
 
-  public String getName() {
-    return name;
+  public void setId(int number) {
+    this.id = number;
   }
 
   public void setName(String name) {
     this.name = name;
   }
 
-  public int getNumber() {
-    return number;
+  public int getId() {
+    return this.id;
   }
 
-  public void addPokedexEntry(PokedexEntry pokedexEntry) {
-    this.entries.add(pokedexEntry);
+  public String getName() {
+    return name;
   }
-
 }
