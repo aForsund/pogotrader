@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -32,41 +31,46 @@ public class Type {
   private Set<Type> weakTo = new HashSet<>();
 
   // Avoid infinite recursion when creating JSON response
-  @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
-      "notEffectiveAgainst" })
+  // @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo",
+  // "notVeryEffectiveAgainst", "immuneTo",
+  // "notEffectiveAgainst" })
   @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(name = "strong_against")
   private Set<Type> strongAgainst = new HashSet<>();
 
   // Avoid infinite recursion when creating JSON response
-  @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
-      "notEffectiveAgainst" })
+  // @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo",
+  // "notVeryEffectiveAgainst", "immuneTo",
+  // "notEffectiveAgainst" })
   @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(name = "resistant_to")
   private Set<Type> resistantTo = new HashSet<>();
 
   // Avoid infinite recursion when creating JSON response
-  @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
-      "notEffectiveAgainst" })
+  // @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo",
+  // "notVeryEffectiveAgainst", "immuneTo",
+  // "notEffectiveAgainst" })
   @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(name = "not_very_effective_against")
   private Set<Type> notVeryEffectiveAgainst = new HashSet<>();
 
   // Avoid infinite recursion when creating JSON response
-  @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
-      "notEffectiveAgainst" })
+  // @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo",
+  // "notVeryEffectiveAgainst", "immuneTo",
+  // "notEffectiveAgainst" })
   @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(name = "immune_to")
   private Set<Type> immuneTo = new HashSet<>();
 
   // Avoid infinite recursion when creating JSON response
-  @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
-      "notEffectiveAgainst" })
+  // @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo",
+  // "notVeryEffectiveAgainst", "immuneTo",
+  // "notEffectiveAgainst" })
   @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(name = "not_effective_against")
   private Set<Type> notEffectiveAgainst = new HashSet<>();
 
-  @OneToMany
+  @OneToMany(mappedBy = "type", cascade = CascadeType.ALL)
   private Set<Move> moves = new HashSet<>();
 
   public Type() {

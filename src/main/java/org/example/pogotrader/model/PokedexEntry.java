@@ -1,7 +1,12 @@
 package org.example.pogotrader.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -39,8 +44,8 @@ public class PokedexEntry {
   private double height;
   private double weight;
 
-  @OneToOne
-  private MoveSet moveSet;
+  @ManyToMany(mappedBy = "pokedexList")
+  private Set<Move> moveSet = new HashSet<>();
 
   public PokedexEntry() {
   }
@@ -224,11 +229,15 @@ public class PokedexEntry {
     this.weight = weight;
   }
 
-  public void setMoveSet(MoveSet moveSet) {
+  public void setMoveSet(Set<Move> moveSet) {
     this.moveSet = moveSet;
   }
 
-  public MoveSet getMoveSet() {
+  public void addMove(Move move) {
+    this.moveSet.add(move);
+  }
+
+  public Set<Move> getMoveSet() {
     return this.moveSet;
   }
 
