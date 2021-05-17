@@ -1,0 +1,85 @@
+Acid,poison,9,8,0.8,6,5,2
+Air Slash,flying,14,10,1.2,9,9,3
+Astonish,ghost,8,14,1.1,5,9,3
+Bite,dark,6,4,0.5,4,2,1
+Bubble,water,12,14,1.2,7,11,3
+Bug Bite,bug,5,6,0.5,3,3,1
+Bullet Punch,steel,9,10,0.9,6,7,2
+Bullet Seed,grass,8,14,1.1,5,13,3
+Charge Beam,electric,8,15,1.1,5,11,3
+Charm,fairy,20,11,1.5,16,6,3
+Confusion,psychic,20,15,1.6,16,12,4
+Counter,fighting,12,8,0.9,8,7,2
+Cut,normal,5,5,0.5,3,2,1
+Dragon Breath,dragon,6,4,0.5,4,3,1
+Dragon Tail,dragon,15,9,1.1,9,10,3
+Ember,fire,10,10,1,7,6,2
+Extrasensory,psychic,12,12,1.1,8,10,3
+Feint Attack,dark,10,9,0.9,6,6,2
+Fire Fang,fire,12,8,0.9,8,5,2
+Fire Spin,fire,14,10,1.1,9,10,3
+Frost Breath,ice,10,8,0.9,7,5,2
+Fury Cutter,bug,3,6,0.4,2,4,1
+Gust,flying,25,20,2,16,12,4
+Hex,ghost,10,16,1.2,6,12,3
+Hidden Power,normal,15,15,1.5,9,8,3
+Hidden Power (Bug),bug,15,15,1.5,9,8,3
+Hidden Power (Dark),dark,15,15,1.5,9,8,3
+Hidden Power (Dragon),dragon,15,15,1.5,9,8,3
+Hidden Power (Electric),electric,15,15,1.5,9,8,3
+Hidden Power (Fighting),fighting,15,15,1.5,9,8,3
+Hidden Power (Fire),fire,15,15,1.5,9,8,3
+Hidden Power (Flying),flying,15,15,1.5,9,8,3
+Hidden Power (Ghost),ghost,15,15,1.5,9,8,3
+Hidden Power (Grass),grass,15,15,1.5,9,8,3
+Hidden Power (Ground),ground,15,15,1.5,9,8,3
+Hidden Power (Ice),ice,15,15,1.5,9,8,3
+Hidden Power (Poison),poison,15,15,1.5,9,8,3
+Hidden Power (Psychic),psychic,15,15,1.5,9,8,3
+Hidden Power (Rock),rock,15,15,1.5,9,8,3
+Hidden Power (Steel),steel,15,15,1.5,9,8,3
+Hidden Power (Water),water,15,15,1.5,9,8,3
+Ice Fang,ice,12,20,1.5,8,5,2
+Ice Shard,ice,12,12,1.2,9,10,3
+Incinerate,fire,29,20,2.3,15,20,5
+Infestation,bug,10,14,1.1,6,12,3
+Iron Tail,steel,15,7,1.1,9,6,3
+Karate Chop,fighting,8,10,0.8,5,8,2
+Lick,ghost,5,6,0.5,3,3,1
+Lock-On,normal,1,5,0.3,1,5,1
+Low Kick,fighting,6,6,0.6,4,5,2
+Metal Claw,steel,8,7,0.7,5,6,2
+Mud Shot,ground,5,7,0.6,3,9,2
+Mud Slap,ground,18,12,1.4,11,8,3
+Peck,flying,10,10,1,6,5,2
+Poison Jab,poison,10,7,0.8,6,7,2
+Poison Sting,poison,5,7,0.6,3,8,2
+Pound,normal,7,6,0.6,5,4,2
+Powder Snow,ice,6,15,1,5,8,2
+Present,normal,5,20,1.3,3,12,3
+Psycho Cut,psychic,5,8,0.6,3,9,2
+Quick Attack,normal,8,10,0.8,5,7,2
+Razor Leaf,grass,13,7,1,10,4,2
+Rock Smash,fighting,15,10,1.3,9,7,3
+Rock Throw,rock,12,7,0.9,8,5,2
+Scratch,normal,6,4,0.5,4,2,1
+Shadow Claw,ghost,9,6,0.7,6,8,2
+Smack Down,rock,16,8,1.2,12,8,3
+Snarl,dark,12,14,1.1,5,13,3
+Spark,electric,6,9,0.7,4,8,2
+Splash,water,0,20,1.73,0,12,4
+Steel Wing,steel,11,6,0.8,7,5,2
+Struggle Bug,bug,15,15,1.5,9,8,3
+Sucker Punch,dark,7,8,0.7,5,7,2
+Tackle,normal,5,5,0.5,3,2,1
+Take Down,normal,8,10,1.2,5,8,3
+Thunder Fang,electric,12,16,1.2,8,5,2
+Thunder Shock,electric,5,8,0.6,3,9,2
+Transform,normal,0,0,2.23,0,0,2
+Vine Whip,grass,7,6,0.6,5,8,2
+Volt Switch,electric,14,21,1.6,12,16,4
+Water Gun,water,5,5,0.5,3,3,1
+Waterfall,water,16,8,1.2,12,8,3
+Wing Attack,flying,8,9,0.8,5,7,2
+Yawn,normal,0,15,1.7,0,12,4
+Zen Headbutt,psychic,12,10,1.1,8,6,3
