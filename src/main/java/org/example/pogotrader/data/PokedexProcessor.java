@@ -9,8 +9,9 @@ public class PokedexProcessor implements ItemProcessor<PokedexInput, PokedexEntr
   public PokedexEntry process(final PokedexInput pokedexInput) throws Exception {
 
     PokedexEntry pokemon = new PokedexEntry();
-    pokemon.setId(Integer.parseInt(pokedexInput.getId()));
+
     pokemon.setName(pokedexInput.getName());
+    pokemon.setId(Integer.parseInt(pokedexInput.getId()));
     pokemon.setNumber(Integer.valueOf(pokedexInput.getNumber()));
     pokemon.setCode(Integer.parseInt(pokedexInput.getCode()));
     // pokemon.setNextEvolution(Integer.parseInt(pokedexInput.getNext_evolution()));

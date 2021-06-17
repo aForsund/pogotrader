@@ -83,6 +83,7 @@ public class BatchConfig {
         .fieldSetMapper(new BeanWrapperFieldSetMapper<FastMoveInput>() {
           {
             setTargetType(FastMoveInput.class);
+            setDistanceLimit(1);
           }
         }).build();
   }
@@ -130,7 +131,9 @@ public class BatchConfig {
   public JdbcBatchItemWriter<FastMove> fastMoveWriter(DataSource dataSource) {
     return new JdbcBatchItemWriterBuilder<FastMove>()
         .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
-        .sql("INSERT INTO fast_move (name) " + "VALUES (:name)").dataSource(dataSource).build();
+        .sql("INSERT INTO fast_move (name, pve_power, pve_energy, pve_cooldown, pvp_power, pvp_energy, pvp_turns) "
+            + "VALUES (:name, :pvePower, :pveEnergy, :pveCooldown, :pvpPower, :pvpEnergy, :pvpTurns)")
+        .dataSource(dataSource).build();
   }
 
   /*

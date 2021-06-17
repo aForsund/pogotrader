@@ -7,6 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+
+import javax.persistence.CascadeType;
 
 @Entity
 public class PokedexEntry {
@@ -43,8 +47,10 @@ public class PokedexEntry {
   private double height;
   private double weight;
 
-  @ManyToMany(mappedBy = "pokedexList")
-  private Set<Move> moveSet = new HashSet<>();
+  @ManyToMany(cascade = CascadeType.ALL)
+  @JoinTable(name = "pokedex_entry_move", joinColumns = {
+      @JoinColumn(name = "pokedex_entry_id") }, inverseJoinColumns = { @JoinColumn(name = "fast_move_id") })
+  private Set<FastMove> moves = new HashSet<>();
 
   public PokedexEntry() {
   }
@@ -228,16 +234,16 @@ public class PokedexEntry {
     this.weight = weight;
   }
 
-  public void setMoveSet(Set<Move> moveSet) {
-    this.moveSet = moveSet;
+  public void setMoves(Set<FastMove> moveSet) {
+    this.moves = moveSet;
   }
 
-  public void addMove(Move move) {
-    this.moveSet.add(move);
+  public void addMove(FastMove move) {
+    this.moves.add(move);
   }
 
-  public Set<Move> getMoveSet() {
-    return this.moveSet;
+  public Set<FastMove> getMoves() {
+    return this.moves;
   }
 
   @Override

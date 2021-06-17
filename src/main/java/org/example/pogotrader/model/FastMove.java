@@ -1,16 +1,9 @@
 package org.example.pogotrader.model;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 @Entity
 public class FastMove extends Move {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
 
   private int pvePower;
   private double pveCooldown;
@@ -21,15 +14,14 @@ public class FastMove extends Move {
   private int pvpTurns;
 
   public FastMove() {
-    super();
+  }
+
+  public FastMove(String name, Type type) {
+    super(name, type);
   }
 
   public int getPvePower() {
     return pvePower;
-  }
-
-  public int getId() {
-    return this.id;
   }
 
   public void setPvePower(int pvePower) {

@@ -66,7 +66,7 @@ public class Type {
   private Set<Type> notEffectiveAgainst = new HashSet<>();
 
   @OneToMany(mappedBy = "type", cascade = CascadeType.ALL)
-  private Set<Move> moves = new HashSet<>();
+  private Set<FastMove> moves = new HashSet<>();
 
   public Type() {
   }
@@ -140,11 +140,11 @@ public class Type {
     return this.notEffectiveAgainst;
   }
 
-  public void addMove(Move move) {
+  public void addMove(FastMove move) {
     this.moves.add(move);
   }
 
-  public Set<Move> getMoves() {
+  public Set<FastMove> getMoves() {
     return this.moves;
   }
   // public HashSet<Type> immuneTo() { return this.immuneTo; }
