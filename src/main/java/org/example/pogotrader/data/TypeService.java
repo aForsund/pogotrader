@@ -19,7 +19,7 @@ public class TypeService {
   }
 
   public Type findByName(String name) {
-    return typeRepository.findByName(name);
+    return typeRepository.findByNameIgnoreCase(name);
   }
 
   public Set<Type> list() {

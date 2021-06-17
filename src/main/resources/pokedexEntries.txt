@@ -1,0 +1,1 @@
+number,code,id,next evolution,previous evolution,name,type one,type two,color,attack stat,defense stat,health stat,combat power @ level 40,region ID,is legendary,is mythical,has shadow,has mega,has shiny,normal height,normal weight

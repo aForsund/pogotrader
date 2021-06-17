@@ -11,3 +11,12 @@ Content-Type: application/json
 
 GET http://localhost:8080/api/type/?name=Water
 Content-Type: application/json
+
+
+###
+GET http://localhost:8080/api/fastMove/?name=Acid
+Content-Type: application/json
+
+###
+GET http://localhost:8080/api/fastMoves
+Content-Type: application/json

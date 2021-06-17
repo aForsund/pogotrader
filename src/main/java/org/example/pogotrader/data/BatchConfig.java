@@ -2,6 +2,7 @@ package org.example.pogotrader.data;
 
 import javax.sql.DataSource;
 
+import org.example.pogotrader.model.FastMove;
 import org.example.pogotrader.model.PokedexEntry;
 import org.example.pogotrader.model.Type;
 
@@ -20,7 +21,7 @@ import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+
 import org.springframework.core.io.ClassPathResource;
 
 @Configuration
@@ -75,6 +76,20 @@ public class BatchConfig {
   }
 
   @Bean
+  public FlatFileItemReader<FastMoveInput> fastMoveReader() {
+    return new FlatFileItemReaderBuilder<FastMoveInput>().name("FastMoveReader")
+        .resource(new ClassPathResource("fastMoves.csv")).delimited().names(new String[] { "name", "type", "pve_power",
+            "pve_energy", "pve_cooldown", "pvp_power", "pvp_energy", "pvp_turns" })
+        .fieldSetMapper(new BeanWrapperFieldSetMapper<FastMoveInput>() {
+          {
+            setTargetType(FastMoveInput.class);
+          }
+        }).build();
+  }
+
+  // .names(new String[] { "name", "type", "pve_bars", "pve_cooldown",
+  // "pve_window", "pve_power", "pvp_power", "pvp_energy", "pvp_effect"})
+  @Bean
   public PokedexProcessor pokedexProcessor() {
     return new PokedexProcessor();
   }
@@ -82,6 +97,11 @@ public class BatchConfig {
   @Bean
   public TypeProcessor typeProcessor() {
     return new TypeProcessor();
+  }
+
+  @Bean
+  public FastMoveProcessor fastMoveProcessor() {
+    return new FastMoveProcessor();
   }
 
   @Bean
@@ -96,7 +116,6 @@ public class BatchConfig {
   }
 
   @Bean
-  @Primary
   public JdbcBatchItemWriter<Type> typeWriter(DataSource dataSource) {
     return new JdbcBatchItemWriterBuilder<Type>()
         .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
@@ -105,6 +124,13 @@ public class BatchConfig {
             + " INSERT (name) VALUES (:name)")
         .dataSource(dataSource).build();
 
+  }
+
+  @Bean
+  public JdbcBatchItemWriter<FastMove> fastMoveWriter(DataSource dataSource) {
+    return new JdbcBatchItemWriterBuilder<FastMove>()
+        .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
+        .sql("INSERT INTO fast_move (name) " + "VALUES (:name)").dataSource(dataSource).build();
   }
 
   /*
@@ -117,9 +143,9 @@ public class BatchConfig {
    */
   @Bean
   public Job readData(JobCompletionNotificationListener listener, Step importTypes, Step importTypeProperties,
-      Step step1) {
+      Step importFastMoves, Step step1) {
     return jobBuilderFactory.get("importUserJob").incrementer(new RunIdIncrementer()).listener(listener)
-        .start(importTypes).next(importTypeProperties).next(step1).build();
+        .start(importTypes).next(importTypeProperties).next(importFastMoves).next(step1).build();
   }
 
   @Bean
@@ -132,6 +158,12 @@ public class BatchConfig {
   public Step importTypeProperties(JdbcBatchItemWriter<Type> writer) {
     return stepBuilderFactory.get("importTypeProperties").<TypeInput, Type>chunk(18).reader(typePropertiesReader())
         .processor(typeProcessor()).writer(writer).build();
+  }
+
+  @Bean
+  public Step importFastMoves(JdbcBatchItemWriter<FastMove> writer) {
+    return stepBuilderFactory.get("importFastMoves").<FastMoveInput, FastMove>chunk(10).reader(fastMoveReader())
+        .processor(fastMoveProcessor()).writer(writer).build();
   }
 
   @Bean
