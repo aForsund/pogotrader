@@ -1,18 +1,21 @@
 package org.example.pogotrader.model;
 
-import java.util.HashSet;
-import java.util.Set;
+//import java.util.HashSet;
+//import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
 import javax.persistence.JoinColumn;
 
-import javax.persistence.ManyToMany;
+//import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
 import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @MappedSuperclass
 public abstract class Move {
@@ -23,12 +26,14 @@ public abstract class Move {
 
   private String name;
 
-  @ManyToOne
-  @JoinColumn(name = "type_id")
+  @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
+      "notEffectiveAgainst", "moves" })
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JoinColumn(name = "type_id", referencedColumnName = "id")
   private Type type;
 
-  @ManyToMany(mappedBy = "moves")
-  private Set<PokedexEntry> pokedex = new HashSet<>();
+  // @ManyToMany(mappedBy = "moves", cascade = CascadeType.ALL)
+  // private Set<PokedexEntry> pokedex = new HashSet<>();
 
   // @ManyToMany(cascade = CascadeType.ALL)
   // @JoinTable(name = "pokedex_moves")
@@ -55,6 +60,10 @@ public abstract class Move {
 
   }
 
+  public void setId(int id) {
+    this.id = id;
+  }
+
   public int getId() {
     return this.id;
   }
@@ -75,16 +84,48 @@ public abstract class Move {
     return this.type;
   }
 
-  public void setPokedex(Set<PokedexEntry> pokedexList) {
-    this.pokedex = pokedexList;
+  // public void setPokedex(Set<PokedexEntry> pokedexList) {
+  // this.pokedex = pokedexList;
+  // }
+
+  // public void addPokedexList(PokedexEntry entry) {
+  // this.pokedex.add(entry);
+  // }
+
+  // public Set<PokedexEntry> getPokedexList() {
+  // return this.pokedex;
+  // }
+
+  @Override
+  public boolean equals(Object compared) {
+    if (this == compared) {
+      return true;
+    }
+
+    if (!(compared instanceof Move)) {
+      return false;
+    }
+
+    Move comparedMove = (Move) compared;
+
+    if (comparedMove.getName() == null) {
+      return false;
+    }
+    if (comparedMove.getName().equals(this.name)) {
+      return true;
+    }
+
+    return false;
   }
 
-  public void addPokedexList(PokedexEntry entry) {
-    this.pokedex.add(entry);
+  @Override
+  public int hashCode() {
+    int hashCode;
+    try {
+      hashCode = Integer.parseInt(this.name);
+    } catch (NumberFormatException e) {
+      hashCode = 0;
+    }
+    return hashCode;
   }
-
-  public Set<PokedexEntry> getPokedexList() {
-    return this.pokedex;
-  }
-
 }

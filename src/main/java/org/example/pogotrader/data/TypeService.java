@@ -19,8 +19,6 @@ public class TypeService {
   }
 
   public Type findByName(String name) {
-    System.out.println("Hi from typeService find by name (ignore case)");
-    System.out.println(typeRepository.findByNameIgnoreCase(name));
     return typeRepository.findByNameIgnoreCase(name);
   }
 

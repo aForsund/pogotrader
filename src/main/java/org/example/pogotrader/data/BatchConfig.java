@@ -78,8 +78,8 @@ public class BatchConfig {
   @Bean
   public FlatFileItemReader<FastMoveInput> fastMoveReader() {
     return new FlatFileItemReaderBuilder<FastMoveInput>().name("FastMoveReader")
-        .resource(new ClassPathResource("fastMoves.csv")).delimited().names(new String[] { "name", "type", "pve_power",
-            "pve_energy", "pve_cooldown", "pvp_power", "pvp_energy", "pvp_turns" })
+        .resource(new ClassPathResource("fastMoves.csv")).delimited()
+        .names(new String[] { "name", "type", "raid_power", "raid_energy", "cooldown", "power", "energy", "turns" })
         .fieldSetMapper(new BeanWrapperFieldSetMapper<FastMoveInput>() {
           {
             setTargetType(FastMoveInput.class);
@@ -131,8 +131,8 @@ public class BatchConfig {
   public JdbcBatchItemWriter<FastMove> fastMoveWriter(DataSource dataSource) {
     return new JdbcBatchItemWriterBuilder<FastMove>()
         .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
-        .sql("INSERT INTO fast_move (name, pve_power, pve_energy, pve_cooldown, pvp_power, pvp_energy, pvp_turns) "
-            + "VALUES (:name, :pvePower, :pveEnergy, :pveCooldown, :pvpPower, :pvpEnergy, :pvpTurns)")
+        .sql("INSERT INTO fast_move (name, raid_power, raid_energy, cooldown, power, energy, turns) "
+            + "VALUES (:name, :raidPower, :raidEnergy, :cooldown, :power, :energy, :turns)")
         .dataSource(dataSource).build();
   }
 

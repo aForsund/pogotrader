@@ -4,12 +4,12 @@ public class FastMoveInput {
 
   private String name;
   private String type;
-  private String pvePower;
-  private String pveEnergy;
-  private String pveCooldown;
-  private String pvpPower;
-  private String pvpEnergy;
-  private String pvpTurns;
+  private String raidPower;
+  private String raidEnergy;
+  private String cooldown;
+  private String power;
+  private String energy;
+  private String turns;
 
   public String getName() {
     return name;
@@ -27,52 +27,52 @@ public class FastMoveInput {
     this.type = type;
   }
 
-  public String getPvePower() {
-    return pvePower;
+  public String getRaidPower() {
+    return raidPower;
   }
 
-  public void setPvePower(String pvePower) {
-    this.pvePower = pvePower;
+  public void setRaidPower(String power) {
+    this.raidPower = power;
   }
 
-  public String getPveEnergy() {
-    return pveEnergy;
+  public String getRaidEnergy() {
+    return raidEnergy;
   }
 
-  public void setPveEnergy(String pveEnergy) {
-    this.pveEnergy = pveEnergy;
+  public void setRaidEnergy(String energy) {
+    this.raidEnergy = energy;
   }
 
-  public String getPveCooldown() {
-    return pveCooldown;
+  public String getCooldown() {
+    return cooldown;
   }
 
-  public void setPveCooldown(String pveCooldown) {
-    this.pveCooldown = pveCooldown;
+  public void setCooldown(String cooldown) {
+    this.cooldown = cooldown;
   }
 
-  public String getPvpPower() {
-    return pvpPower;
+  public String getPower() {
+    return power;
   }
 
-  public void setPvpPower(String pvpPower) {
-    this.pvpPower = pvpPower;
+  public void setPower(String power) {
+    this.power = power;
   }
 
-  public String getPvpEnergy() {
-    return pvpEnergy;
+  public String getEnergy() {
+    return energy;
   }
 
-  public void setPvpEnergy(String pvpEnergy) {
-    this.pvpEnergy = pvpEnergy;
+  public void setEnergy(String energy) {
+    this.energy = energy;
   }
 
-  public String getPvpTurns() {
-    return pvpTurns;
+  public String getTurns() {
+    return turns;
   }
 
-  public void setPvpTurns(String pvpTurns) {
-    this.pvpTurns = pvpTurns;
+  public void setTurns(String turns) {
+    this.turns = turns;
   }
 
 }

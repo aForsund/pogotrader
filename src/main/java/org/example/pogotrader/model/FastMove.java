@@ -5,13 +5,13 @@ import javax.persistence.Entity;
 @Entity
 public class FastMove extends Move {
 
-  private int pvePower;
-  private double pveCooldown;
-  private int pveEnergy;
+  private int raidPower;
+  private double cooldown;
+  private int raidEnergy;
 
-  private int pvpDamage;
-  private int pvpEnergy;
-  private int pvpTurns;
+  private int power;
+  private int energy;
+  private int turns;
 
   public FastMove() {
   }
@@ -20,52 +20,74 @@ public class FastMove extends Move {
     super(name, type);
   }
 
-  public int getPvePower() {
-    return pvePower;
+  public int getRaidPower() {
+    return raidPower;
   }
 
-  public void setPvePower(int pvePower) {
-    this.pvePower = pvePower;
+  public void setRaidPower(int power) {
+    this.raidPower = power;
   }
 
-  public double getPveCooldown() {
-    return pveCooldown;
+  public double getCooldown() {
+    return cooldown;
   }
 
-  public void setPveCooldown(double pveCooldown) {
-    this.pveCooldown = pveCooldown;
+  public void setCooldown(double pveCooldown) {
+    this.cooldown = pveCooldown;
   }
 
-  public int getPveEnergy() {
-    return pveEnergy;
+  public int getRaidEnergy() {
+    return raidEnergy;
   }
 
-  public void setPveEnergy(int pveEnergy) {
-    this.pveEnergy = pveEnergy;
+  public void setRaidEnergy(int energy) {
+    this.raidEnergy = energy;
   }
 
-  public int getPvpDamage() {
-    return pvpDamage;
+  public int getPower() {
+    return power;
   }
 
-  public void setPvpDamage(int pvpDamage) {
-    this.pvpDamage = pvpDamage;
+  public void setPower(int power) {
+    this.power = power;
   }
 
-  public int getPvpEnergy() {
-    return pvpEnergy;
+  public int getEnergy() {
+    return energy;
   }
 
-  public void setPvpEnergy(int pvpEnergy) {
-    this.pvpEnergy = pvpEnergy;
+  public void setEnergy(int energy) {
+    this.energy = energy;
   }
 
-  public int getPvpTurns() {
-    return pvpTurns;
+  public int getTurns() {
+    return turns;
   }
 
-  public void setPvpTurns(int pvpTurns) {
-    this.pvpTurns = pvpTurns;
+  public void setTurns(int turns) {
+    this.turns = turns;
   }
+
+  @Override
+  public int hashCode() {
+    int hashCode;
+    try {
+      hashCode = Integer.parseInt(this.getName());
+    } catch (NumberFormatException e) {
+      hashCode = 0;
+    }
+    return hashCode;
+  }
+  /*
+   * @Override public boolean equals(Object compared) { if (this == compared) {
+   * return true; }
+   * 
+   * if (!(compared instanceof FastMove)) { return false; }
+   * 
+   * FastMove comparedMove = (FastMove) compared; if
+   * (comparedMove.getName().equals(this.getName())) { return true; }
+   * 
+   * return false; }
+   */
 
 }

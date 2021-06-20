@@ -1,8 +1,8 @@
 package org.example.pogotrader.data;
 
+import org.example.pogotrader.model.Type;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.example.pogotrader.model.Type;
 
 import javax.transaction.Transactional;
 
@@ -20,15 +20,20 @@ public class FastMoveProcessor implements ItemProcessor<FastMoveInput, FastMove>
     System.out.println("Hello from FastMoveProcessor");
     System.out.println("I'm now accessing " + fastMoveInput.getName() + " of type " + fastMoveInput.getType());
     Type type = typeService.findByName(fastMoveInput.getType());
-    FastMove fastMove = new FastMove();
-    fastMove.setName(fastMoveInput.getName());
-    fastMove.setType(type);
-    fastMove.setPvePower(Integer.parseInt(fastMoveInput.getPvePower()));
-    fastMove.setPveCooldown(Double.parseDouble(fastMoveInput.getPveCooldown()));
-    fastMove.setPveEnergy(Integer.parseInt(fastMoveInput.getPveEnergy()));
-    fastMove.setPvpDamage(Integer.parseInt(fastMoveInput.getPvpPower()));
-    fastMove.setPvpEnergy(Integer.parseInt(fastMoveInput.getPvpEnergy()));
-    fastMove.setPvpTurns(Integer.parseInt(fastMoveInput.getPvpTurns()));
+    System.out.println("printing Type:");
+    System.out.println(type);
+    System.out.println(type.getId());
+    FastMove fastMove = new FastMove(fastMoveInput.getName(), typeService.findByName(fastMoveInput.getType()));
+
+    fastMove.setRaidPower(Integer.parseInt(fastMoveInput.getRaidPower()));
+    fastMove.setCooldown(Double.parseDouble(fastMoveInput.getCooldown()));
+    fastMove.setRaidEnergy(Integer.parseInt(fastMoveInput.getRaidEnergy()));
+    fastMove.setPower(Integer.parseInt(fastMoveInput.getPower()));
+    fastMove.setEnergy(Integer.parseInt(fastMoveInput.getEnergy()));
+    fastMove.setTurns(Integer.parseInt(fastMoveInput.getTurns()));
+
+    typeService.findByName(fastMoveInput.getType()).addMove(fastMove);
+    typeService.save(typeService.findByName(fastMoveInput.getType()));
 
     return fastMove;
   }
