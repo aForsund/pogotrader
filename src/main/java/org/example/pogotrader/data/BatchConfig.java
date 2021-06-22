@@ -2,6 +2,7 @@ package org.example.pogotrader.data;
 
 import javax.sql.DataSource;
 
+import org.example.pogotrader.model.ChargedMove;
 import org.example.pogotrader.model.FastMove;
 import org.example.pogotrader.model.PokedexEntry;
 import org.example.pogotrader.model.Type;
@@ -88,6 +89,20 @@ public class BatchConfig {
         }).build();
   }
 
+  @Bean
+  public FlatFileItemReader<ChargedMoveInput> chargedMoveReader() {
+    return new FlatFileItemReaderBuilder<ChargedMoveInput>().name("ChargedMoveReader")
+        .resource(new ClassPathResource("chargedMoves.csv")).delimited()
+        .names(
+            new String[] { "name", "type", "bars", "cooldown", "damage_window", "power", "damage", "energy", "effect" })
+        .fieldSetMapper(new BeanWrapperFieldSetMapper<ChargedMoveInput>() {
+          {
+            setTargetType(ChargedMoveInput.class);
+            setDistanceLimit(1);
+          }
+        }).build();
+  }
+
   // .names(new String[] { "name", "type", "pve_bars", "pve_cooldown",
   // "pve_window", "pve_power", "pvp_power", "pvp_energy", "pvp_effect"})
   @Bean
@@ -103,6 +118,11 @@ public class BatchConfig {
   @Bean
   public FastMoveProcessor fastMoveProcessor() {
     return new FastMoveProcessor();
+  }
+
+  @Bean
+  public ChargedMoveProcessor chargedMoveProcessor() {
+    return new ChargedMoveProcessor();
   }
 
   @Bean
@@ -136,19 +156,21 @@ public class BatchConfig {
         .dataSource(dataSource).build();
   }
 
-  /*
-   * @Bean JdbcBatchItemWriter<Type> typePropertiesWriter(DataSource dataSource) {
-   * return new JdbcBatchItemWriterBuilder<Type>()
-   * .itemSqlParameterSourceProvider(new
-   * BeanPropertyItemSqlParameterSourceProvider<>())
-   * .sql("INSERT INTO type (weakTo) VALUES (:weakTo)").dataSource(dataSource).
-   * build(); }
-   */
+  @Bean
+  public JdbcBatchItemWriter<ChargedMove> chargedMoveWriter(DataSource dataSource) {
+    return new JdbcBatchItemWriterBuilder<ChargedMove>()
+        .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
+        .sql("INSERT INTO charged_move (name, bars, cooldown, damage_window, power, damage, energy) "
+            + "VALUES (:name, :bars, :cooldown, :damageWindow, :power, :damage, :energy)")
+        .dataSource(dataSource).build();
+  }
+
   @Bean
   public Job readData(JobCompletionNotificationListener listener, Step importTypes, Step importTypeProperties,
-      Step importFastMoves, Step step1) {
+      Step importFastMoves, Step importChargedMoves, Step step1) {
     return jobBuilderFactory.get("importUserJob").incrementer(new RunIdIncrementer()).listener(listener)
-        .start(importTypes).next(importTypeProperties).next(importFastMoves).next(step1).build();
+        .start(importTypes).next(importTypeProperties).next(importFastMoves).next(importChargedMoves).next(step1)
+        .build();
   }
 
   @Bean
@@ -167,6 +189,12 @@ public class BatchConfig {
   public Step importFastMoves(JdbcBatchItemWriter<FastMove> writer) {
     return stepBuilderFactory.get("importFastMoves").<FastMoveInput, FastMove>chunk(10).reader(fastMoveReader())
         .processor(fastMoveProcessor()).writer(writer).build();
+  }
+
+  @Bean
+  public Step importChargedMoves(JdbcBatchItemWriter<ChargedMove> writer) {
+    return stepBuilderFactory.get("importChargedMoves").<ChargedMoveInput, ChargedMove>chunk(10)
+        .reader(chargedMoveReader()).processor(chargedMoveProcessor()).writer(writer).build();
   }
 
   @Bean
