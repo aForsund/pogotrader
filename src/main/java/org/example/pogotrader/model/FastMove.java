@@ -78,16 +78,23 @@ public class FastMove extends Move {
     }
     return hashCode;
   }
-  /*
-   * @Override public boolean equals(Object compared) { if (this == compared) {
-   * return true; }
-   * 
-   * if (!(compared instanceof FastMove)) { return false; }
-   * 
-   * FastMove comparedMove = (FastMove) compared; if
-   * (comparedMove.getName().equals(this.getName())) { return true; }
-   * 
-   * return false; }
-   */
+
+  @Override
+  public boolean equals(Object compared) {
+    if (this == compared) {
+      return true;
+    }
+
+    if (!(compared instanceof FastMove)) {
+      return false;
+    }
+
+    FastMove comparedMove = (FastMove) compared;
+    if (comparedMove.getName().equals(this.getName())) {
+      return true;
+    }
+
+    return false;
+  }
 
 }

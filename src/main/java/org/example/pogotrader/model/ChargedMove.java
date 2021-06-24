@@ -1,9 +1,8 @@
 
 package org.example.pogotrader.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -17,7 +16,8 @@ public class ChargedMove extends Move {
   private int damage;
   private int energy;
 
-  @OneToOne(mappedBy = "move", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JoinColumn(name = "effect_id")
+  @OneToOne
   private Effect effect;
 
   public ChargedMove() {
@@ -82,6 +82,35 @@ public class ChargedMove extends Move {
 
   public void setEffect(Effect effect) {
     this.effect = effect;
+  }
+
+  @Override
+  public int hashCode() {
+    int hashCode;
+    try {
+      hashCode = Integer.parseInt(this.getName());
+    } catch (NumberFormatException e) {
+      hashCode = 0;
+    }
+    return hashCode;
+  }
+
+  @Override
+  public boolean equals(Object compared) {
+    if (this == compared) {
+      return true;
+    }
+
+    if (!(compared instanceof ChargedMove)) {
+      return false;
+    }
+
+    ChargedMove comparedMove = (ChargedMove) compared;
+    if (comparedMove.getName().equals(this.getName())) {
+      return true;
+    }
+
+    return false;
   }
 
 }

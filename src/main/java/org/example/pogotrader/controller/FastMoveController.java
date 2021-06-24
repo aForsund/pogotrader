@@ -21,7 +21,7 @@ public class FastMoveController {
   }
 
   @GetMapping("/api/fastMove")
-  public FastMove findByName(@RequestParam String name) {
+  public Iterable<FastMove> findByName(@RequestParam String name) {
     return fastMoveRepository.findByName(name);
   }
 }

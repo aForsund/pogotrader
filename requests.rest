@@ -20,3 +20,11 @@ Content-Type: application/json
 ###
 GET http://localhost:8080/api/fastMoves
 Content-Type: application/json
+
+###
+GET http://localhost:8080/api/chargedMoves
+Content-Type: application/json
+
+###
+GET http://localhost:8080/api/chargedMove/?name=Acid
+Content-Type: application/json

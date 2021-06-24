@@ -32,7 +32,7 @@ public class FastMoveProcessor implements ItemProcessor<FastMoveInput, FastMove>
     fastMove.setEnergy(Integer.parseInt(fastMoveInput.getEnergy()));
     fastMove.setTurns(Integer.parseInt(fastMoveInput.getTurns()));
 
-    typeService.findByName(fastMoveInput.getType()).addMove(fastMove);
+    typeService.findByName(fastMoveInput.getType()).addFastMove(fastMove);
     typeService.save(typeService.findByName(fastMoveInput.getType()));
 
     return fastMove;

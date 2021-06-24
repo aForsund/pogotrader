@@ -7,9 +7,9 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface FastMoveRepository extends CrudRepository<FastMove, Integer> {
 
-  FastMove findByName(String name);
+  HashSet<FastMove> findByName(String name);
 
-  FastMove findByType(String type);
+  HashSet<FastMove> findByType(String type);
 
   HashSet<FastMove> findAll();
 

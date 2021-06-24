@@ -15,6 +15,10 @@ public class EffectService {
     this.effectRepository = effectRepository;
   }
 
+  public Effect findById(int id) {
+    return effectRepository.findById(id);
+  }
+
   public void save(Effect effect) {
     effectRepository.save(effect);
   }

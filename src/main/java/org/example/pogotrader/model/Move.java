@@ -4,7 +4,7 @@ package org.example.pogotrader.model;
 //import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
@@ -27,8 +27,8 @@ public abstract class Move {
   private String name;
 
   @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
-      "notEffectiveAgainst", "moves" })
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+      "notEffectiveAgainst", "fastMoves", "chargedMoves" })
+  @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "type_id", referencedColumnName = "id")
   private Type type;
 

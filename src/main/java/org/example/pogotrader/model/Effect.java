@@ -1,9 +1,9 @@
 
 package org.example.pogotrader.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
+
 import javax.persistence.OneToOne;
 
 import javax.persistence.GeneratedValue;
@@ -24,8 +24,7 @@ public class Effect {
   private boolean opponentDefense;
   private int modifier;
 
-  @JoinColumn(name = "charged_move_id")
-  @OneToOne(fetch = FetchType.LAZY)
+  @OneToOne(mappedBy = "effect", cascade = CascadeType.ALL)
   private ChargedMove move;
 
   public Effect() {
@@ -42,6 +41,14 @@ public class Effect {
     this.opponentAttack = oppAtk;
     this.opponentDefense = oppDef;
     this.modifier = modifier;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public int getId() {
+    return this.id;
   }
 
   public void setChance(double chance) {

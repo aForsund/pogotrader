@@ -15,6 +15,9 @@ public class ChargedMoveProcessor implements ItemProcessor<ChargedMoveInput, Cha
   @Autowired
   private RegexService regexService;
 
+  @Autowired
+  private EffectService effectService;
+
   @Override
   public ChargedMove process(final ChargedMoveInput chargedMoveInput) throws Exception {
 
@@ -36,10 +39,15 @@ public class ChargedMoveProcessor implements ItemProcessor<ChargedMoveInput, Cha
       Effect effect = new Effect();
       effect.setChance((double) regexService.getPercent(chargedMoveInput.getEffect()) / 100);
       System.out.println("Effect chance " + effect.getChance());
+      System.out.println("Effect id: " + effect.getId());
 
       chargedMove.setEffect(effect);
+      effectService.save(effect);
 
     }
+
+    typeService.findByName(chargedMoveInput.getType()).addChargedMove(chargedMove);
+    typeService.save(typeService.findByName(chargedMoveInput.getType()));
 
     return chargedMove;
   }
