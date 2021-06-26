@@ -26,5 +26,5 @@ GET http://localhost:8080/api/chargedMoves
 Content-Type: application/json
 
 ###
-GET http://localhost:8080/api/chargedMove/?name=Acid
+GET http://localhost:8080/api/chargedMove/?name=Ancient Power
 Content-Type: application/json

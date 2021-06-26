@@ -38,8 +38,15 @@ public class ChargedMoveProcessor implements ItemProcessor<ChargedMoveInput, Cha
 
       Effect effect = new Effect();
       effect.setChance((double) regexService.getPercent(chargedMoveInput.getEffect()) / 100);
-      System.out.println("Effect chance " + effect.getChance());
-      System.out.println("Effect id: " + effect.getId());
+      effect.setModifier(regexService.getModifier(chargedMoveInput.getEffect()));
+
+      if (regexService.getSelf(chargedMoveInput.getEffect())) {
+        effect.setSelfAttack(regexService.getAttack(chargedMoveInput.getEffect()));
+        effect.setSelfDefense(regexService.getDefense(chargedMoveInput.getEffect()));
+      } else if (regexService.getOpponent(chargedMoveInput.getEffect())) {
+        effect.setOpponentAttack(regexService.getAttack(chargedMoveInput.getEffect()));
+        effect.setOpponentDefense(regexService.getDefense(chargedMoveInput.getEffect()));
+      }
 
       chargedMove.setEffect(effect);
       effectService.save(effect);
