@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+
 import javax.persistence.OneToOne;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
@@ -25,12 +26,6 @@ public class PokedexEntry {
   private PokedexEntry prevEvolution;
   private String name;
 
-  @OneToOne
-  private Type typeOne;
-
-  @OneToOne
-  private Type typeTwo;
-
   private String color;
   private int attack;
   private int defense;
@@ -47,11 +42,44 @@ public class PokedexEntry {
   private double height;
   private double weight;
 
+  // Moves
   @ManyToMany(cascade = CascadeType.ALL)
-  @JoinTable(name = "pokedex_entry_move", joinColumns = {
+  @JoinTable(name = "pokedex_entry_fast_move", joinColumns = {
       @JoinColumn(name = "pokedex_entry_id") }, inverseJoinColumns = { @JoinColumn(name = "fast_move_id") })
-  private Set<FastMove> moves = new HashSet<>();
+  private Set<FastMove> fastMoves = new HashSet<>();
 
+  @ManyToMany(cascade = CascadeType.ALL)
+  @JoinTable(name = "pokedex_entry_elite_fast_move", joinColumns = {
+      @JoinColumn(name = "pokedex_entry_id") }, inverseJoinColumns = { @JoinColumn(name = "fast_move_id") })
+  private Set<FastMove> eliteFastMoves = new HashSet<>();
+
+  @ManyToMany(cascade = CascadeType.ALL)
+  @JoinTable(name = "pokedex_entry_legacy_fast_move", joinColumns = {
+      @JoinColumn(name = "pokedex_entry_id") }, inverseJoinColumns = { @JoinColumn(name = "fast_move_id") })
+  private Set<FastMove> legacyFastMoves = new HashSet<>();
+
+  @ManyToMany(cascade = CascadeType.ALL)
+  @JoinTable(name = "pokedex_entry_charged_move", joinColumns = {
+      @JoinColumn(name = "pokedex_entry_id") }, inverseJoinColumns = { @JoinColumn(name = "charged_move_id") })
+  private Set<ChargedMove> chargedMoves = new HashSet<>();
+
+  @ManyToMany(cascade = CascadeType.ALL)
+  @JoinTable(name = "pokedex_entry_elite_charged_move", joinColumns = {
+      @JoinColumn(name = "pokedex_entry_id") }, inverseJoinColumns = { @JoinColumn(name = "charged_move_id") })
+  private Set<ChargedMove> eliteChargedMoves = new HashSet<>();
+
+  @ManyToMany(cascade = CascadeType.ALL)
+  @JoinTable(name = "pokedex_entry_legacy_charged_move", joinColumns = {
+      @JoinColumn(name = "pokedex_entry_id") }, inverseJoinColumns = { @JoinColumn(name = "charged_move_id") })
+  private Set<ChargedMove> legacyChargedMoves = new HashSet<>();
+
+  // Typing
+  @ManyToMany(cascade = CascadeType.ALL)
+  @JoinTable(name = "pokedex_entry_type", joinColumns = {
+      @JoinColumn(name = "pokedex_entry_id") }, inverseJoinColumns = { @JoinColumn(name = "type_id") })
+  private Set<Type> typing;
+
+  // Constructors
   public PokedexEntry() {
   }
 
@@ -66,6 +94,7 @@ public class PokedexEntry {
 
   }
 
+  // Getters & Setters
   public int getNumber() {
     return number;
   }
@@ -114,20 +143,12 @@ public class PokedexEntry {
     this.name = name;
   }
 
-  public Type getTypeOne() {
-    return typeOne;
+  public Set<Type> getTyping() {
+    return this.typing;
   }
 
-  public void setTypeOne(Type typeOne) {
-    this.typeOne = typeOne;
-  }
-
-  public Type getTypeTwo() {
-    return typeTwo;
-  }
-
-  public void setTypeTwo(Type typeTwo) {
-    this.typeTwo = typeTwo;
+  public void addTyping(Type type) {
+    this.typing.add(type);
   }
 
   public String getColor() {
@@ -234,21 +255,95 @@ public class PokedexEntry {
     this.weight = weight;
   }
 
-  public void setMoves(Set<FastMove> moveSet) {
-    this.moves = moveSet;
+  public PokedexEntry getPrevEvolution() {
+    return prevEvolution;
   }
 
-  public void addMove(FastMove move) {
-    this.moves.add(move);
+  public boolean isHasMega() {
+    return hasMega;
   }
 
-  public Set<FastMove> getMoves() {
-    return this.moves;
+  public void setHasMega(boolean hasMega) {
+    this.hasMega = hasMega;
+  }
+
+  public boolean isHasShiny() {
+    return hasShiny;
+  }
+
+  public void setHasShiny(boolean hasShiny) {
+    this.hasShiny = hasShiny;
+  }
+
+  public Set<FastMove> getFastMoves() {
+    return fastMoves;
+  }
+
+  public void setFastMoves(Set<FastMove> fastMoves) {
+    this.fastMoves = fastMoves;
+  }
+
+  public Set<FastMove> getEliteFastMoves() {
+    return eliteFastMoves;
+  }
+
+  public void setEliteFastMoves(Set<FastMove> eliteFastMoves) {
+    this.eliteFastMoves = eliteFastMoves;
+  }
+
+  public Set<FastMove> getLegacyFastMoves() {
+    return legacyFastMoves;
+  }
+
+  public void setLegacyFastMoves(Set<FastMove> legacyFastMoves) {
+    this.legacyFastMoves = legacyFastMoves;
+  }
+
+  public Set<ChargedMove> getChargedMoves() {
+    return chargedMoves;
+  }
+
+  public void setChargedMoves(Set<ChargedMove> chargedMoves) {
+    this.chargedMoves = chargedMoves;
+  }
+
+  public Set<ChargedMove> getEliteChargedMoves() {
+    return eliteChargedMoves;
+  }
+
+  public void setEliteChargedMoves(Set<ChargedMove> eliteChargedMoves) {
+    this.eliteChargedMoves = eliteChargedMoves;
+  }
+
+  public Set<ChargedMove> getLegacyChargedMoves() {
+    return legacyChargedMoves;
+  }
+
+  public void setLegacyChargedMoves(Set<ChargedMove> legacyChargedMoves) {
+    this.legacyChargedMoves = legacyChargedMoves;
   }
 
   @Override
   public String toString() {
     return "#" + this.number + " - " + this.name + " " + this.id;
+  }
+
+  @Override
+  public boolean equals(Object compared) {
+    if (this == compared) {
+      return true;
+    }
+
+    if (!(compared instanceof PokedexEntry)) {
+      return false;
+    }
+
+    PokedexEntry comparedEntry = (PokedexEntry) compared;
+    if (comparedEntry.getCode() == this.getCode()) {
+      return true;
+    }
+
+    return false;
   }
 
 }

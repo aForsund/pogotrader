@@ -33,6 +33,7 @@ public class FastMoveProcessor implements ItemProcessor<FastMoveInput, FastMove>
     fastMove.setTurns(Integer.parseInt(fastMoveInput.getTurns()));
 
     typeService.findByName(fastMoveInput.getType()).addFastMove(fastMove);
+    // Is this required? Do a test..
     typeService.save(typeService.findByName(fastMoveInput.getType()));
 
     return fastMove;

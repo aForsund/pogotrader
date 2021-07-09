@@ -103,8 +103,17 @@ public class BatchConfig {
         }).build();
   }
 
-  // .names(new String[] { "name", "type", "pve_bars", "pve_cooldown",
-  // "pve_window", "pve_power", "pvp_power", "pvp_energy", "pvp_effect"})
+  @Bean
+  public FlatFileItemReader<RegionInput> regionReader() {
+    return new FlatFileItemReaderBuilder<RegionInput>().name("RegionReader")
+        .resource(new ClassPathResource("regions.csv")).delimited().names(new String[] { "number", "name" })
+        .fieldSetMapper(new BeanWrapperFieldSetMapper<RegionInput>() {
+          {
+            setTargetType(RegionInput.class);
+          }
+        }).build();
+  }
+
   @Bean
   public PokedexProcessor pokedexProcessor() {
     return new PokedexProcessor();
@@ -123,6 +132,11 @@ public class BatchConfig {
   @Bean
   public ChargedMoveProcessor chargedMoveProcessor() {
     return new ChargedMoveProcessor();
+  }
+
+  @Bean
+  public RegionProcessor regionProcessor() {
+    return new RegionProcessor();
   }
 
   @Bean

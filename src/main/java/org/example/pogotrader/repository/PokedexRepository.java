@@ -7,9 +7,11 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface PokedexRepository extends CrudRepository<PokedexEntry, Integer> {
 
-  PokedexEntry findByName(String name);
+  HashSet<PokedexEntry> findByNameIgnoreCase(String name);
 
-  PokedexEntry findByNumber(int number);
+  HashSet<PokedexEntry> findByNumber(int number);
+
+  PokedexEntry findById(int number);
 
   HashSet<PokedexEntry> findAll();
 

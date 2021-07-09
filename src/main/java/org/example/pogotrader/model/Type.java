@@ -77,6 +77,9 @@ public class Type {
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "type")
   private Set<ChargedMove> chargedMoves = new HashSet<>();
 
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "typing")
+  private Set<PokedexEntry> pokedexEntries = new HashSet<>();
+
   public Type() {
   }
 
@@ -163,6 +166,14 @@ public class Type {
 
   public Set<ChargedMove> getChargedMoves() {
     return this.chargedMoves;
+  }
+
+  public Set<PokedexEntry> getPokedexEntries() {
+    return pokedexEntries;
+  }
+
+  public void addPokedexEntry(PokedexEntry pokedexEntry) {
+    this.pokedexEntries.add(pokedexEntry);
   }
 
   @Override

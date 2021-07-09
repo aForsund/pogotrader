@@ -13,10 +13,6 @@ public interface TypeRepository extends CrudRepository<Type, Integer> {
 
   HashSet<Type> findAll();
 
-  // HashSet<Type> findByNameGetWeakTo(String name);
-
-  // HashSet<Type> findWeakTo(String name);
-
   boolean existsByName(String name);
 
 }

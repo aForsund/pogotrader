@@ -5,16 +5,16 @@ public class PokedexInput {
   private String number;
   private String code;
   private String id;
-  private String next_evolution;
-  private String prev_evolution;
+  private String nextEvolution;
+  private String prevEvolution;
   private String name;
-  private String type_one;
-  private String type_two;
+  private String typeOne;
+  private String typeTwo;
   private String color;
   private String attack;
   private String defense;
   private String health;
-  private String combat_power;
+  private String combatPower;
   private String region;
   private String legendary;
   private String mythical;
@@ -48,20 +48,20 @@ public class PokedexInput {
     this.id = serial;
   }
 
-  public String getNext_evolution() {
-    return next_evolution;
+  public String getNextEvolution() {
+    return nextEvolution;
   }
 
-  public void setNext_evolution(String nextEvolution) {
-    this.next_evolution = nextEvolution;
+  public void setNextEvolution(String nextEvolution) {
+    this.nextEvolution = nextEvolution;
   }
 
-  public String getPrev_evolution() {
-    return prev_evolution;
+  public String getPrevEvolution() {
+    return prevEvolution;
   }
 
-  public void setPrev_evolution(String prevEvolution) {
-    this.prev_evolution = prevEvolution;
+  public void setPrevEvolution(String prevEvolution) {
+    this.prevEvolution = prevEvolution;
   }
 
   public String getName() {
@@ -72,20 +72,20 @@ public class PokedexInput {
     this.name = name;
   }
 
-  public String getType_one() {
-    return type_one;
+  public String getTypeOne() {
+    return typeOne;
   }
 
-  public void setType_one(String typeOne) {
-    this.type_one = typeOne;
+  public void setTypeOne(String typeOne) {
+    this.typeOne = typeOne;
   }
 
-  public String getType_two() {
-    return type_two;
+  public String getTypeTwo() {
+    return typeTwo;
   }
 
-  public void setType_two(String typeTwo) {
-    this.type_two = typeTwo;
+  public void setTypeTwo(String typeTwo) {
+    this.typeTwo = typeTwo;
   }
 
   public String getColor() {
@@ -120,12 +120,12 @@ public class PokedexInput {
     this.health = hp;
   }
 
-  public String getCombat_power() {
-    return combat_power;
+  public String getCombatPower() {
+    return combatPower;
   }
 
   public void setCombat_power(String combat_power) {
-    this.combat_power = combat_power;
+    this.combatPower = combat_power;
   }
 
   public String getRegion() {
