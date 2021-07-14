@@ -10,7 +10,7 @@ public class RegionProcessor implements ItemProcessor<RegionInput, Region> {
 
     Region region = new Region();
 
-    region.setId(Integer.parseInt(regionInput.getNumber()));
+    region.setId(Integer.parseInt(regionInput.getId()));
     region.setName(regionInput.getName());
 
     return region;

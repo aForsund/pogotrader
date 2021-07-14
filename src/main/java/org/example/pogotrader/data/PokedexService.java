@@ -24,4 +24,12 @@ public class PokedexService {
   public PokedexEntry findById(int id) {
     return pokedexRepository.findById(id);
   }
+
+  public void save(PokedexEntry entry) {
+    pokedexRepository.save(entry);
+  }
+
+  public boolean exists(int id) {
+    return pokedexRepository.existsById(id);
+  }
 }

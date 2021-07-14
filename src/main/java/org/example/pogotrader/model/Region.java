@@ -1,14 +1,28 @@
 package org.example.pogotrader.model;
 
+import java.util.Set;
+import java.util.HashSet;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
+@JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
+    "notEffectiveAgainst", "fastMoves", "chargedMoves", "type", "pokedexEntries", "pokedexRegionEntries",
+    "nextEvolution", "prevEvolution", "typing", "region", "move" })
 public class Region {
 
   @Id
   private int id;
   private String name;
+
+  // @JsonIgnoreProperties({ " pokedexRegionEntries " })
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "region")
+  private Set<PokedexEntry> pokedexRegionEntries = new HashSet<>();
 
   public Region() {
   }
@@ -28,4 +42,49 @@ public class Region {
   public String getName() {
     return name;
   }
+
+  public void addPokedexRegionEntry(PokedexEntry entry) {
+    this.pokedexRegionEntries.add(entry);
+  }
+
+  public Set<PokedexEntry> getPokedexRegionEntries() {
+    return this.pokedexRegionEntries;
+  }
+
+  @Override
+  public String toString() {
+    return this.getName();
+  }
+
+  @Override
+  public int hashCode() {
+
+    int hashCode;
+    try {
+      hashCode = Integer.parseInt(this.name) + this.id;
+
+    } catch (NumberFormatException e) {
+      hashCode = 0;
+    }
+
+    return hashCode;
+  }
+
+  @Override
+  public boolean equals(Object compared) {
+    if (this == compared) {
+      return true;
+    }
+
+    if (!(compared instanceof Region)) {
+      return false;
+    }
+
+    Region comparedRegion = (Region) compared;
+    if (comparedRegion.getId() == this.getId()) {
+      return true;
+    }
+    return false;
+  }
+
 }

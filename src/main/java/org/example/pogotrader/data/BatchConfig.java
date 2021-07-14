@@ -6,6 +6,7 @@ import org.example.pogotrader.model.ChargedMove;
 import org.example.pogotrader.model.FastMove;
 import org.example.pogotrader.model.PokedexEntry;
 import org.example.pogotrader.model.Type;
+import org.example.pogotrader.model.Region;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -29,10 +30,6 @@ import org.springframework.core.io.ClassPathResource;
 @EnableBatchProcessing
 public class BatchConfig {
 
-  private final String[] FIELD_NAMES = new String[] { "number", "code", "id", "next_evolution", "prev_evolution",
-      "name", "type_one", "type_two", "color", "attack", "defense", "health", "combat_power", "region", "legendary",
-      "mythical", "mega", "shadow", "shiny", "height", "weight" };
-
   @Autowired
   public JobBuilderFactory jobBuilderFactory;
 
@@ -42,7 +39,10 @@ public class BatchConfig {
   @Bean
   public FlatFileItemReader<PokedexInput> pokedexReader() {
     return new FlatFileItemReaderBuilder<PokedexInput>().name("PokemonItemReader")
-        .resource(new ClassPathResource("test3.csv")).delimited().names(FIELD_NAMES)
+        .resource(new ClassPathResource("pokedexEntries.csv")).delimited()
+        .names(new String[] { "number", "id", "next_evolution", "prev_evolution", "name", "type_one", "type_two",
+            "color", "attack", "defense", "health", "combat_power", "region", "legendary", "mythical", "mega", "shadow",
+            "shiny", "height", "weight" })
         .fieldSetMapper(new BeanWrapperFieldSetMapper<PokedexInput>() {
           {
             setTargetType(PokedexInput.class);
@@ -106,10 +106,11 @@ public class BatchConfig {
   @Bean
   public FlatFileItemReader<RegionInput> regionReader() {
     return new FlatFileItemReaderBuilder<RegionInput>().name("RegionReader")
-        .resource(new ClassPathResource("regions.csv")).delimited().names(new String[] { "number", "name" })
+        .resource(new ClassPathResource("regions.csv")).delimited().names(new String[] { "id", "name" })
         .fieldSetMapper(new BeanWrapperFieldSetMapper<RegionInput>() {
           {
             setTargetType(RegionInput.class);
+            setDistanceLimit(1);
           }
         }).build();
   }
@@ -143,9 +144,10 @@ public class BatchConfig {
   public JdbcBatchItemWriter<PokedexEntry> pokedexWriter(DataSource dataSource) {
     return new JdbcBatchItemWriterBuilder<PokedexEntry>()
         .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
-        .sql(
-            "INSERT INTO pokedex_entry (number, code, id, next_evolution, prev_evolution, name, type_one, type_two, color, attack, defense, health, combat_power, region, legendary, mythical, mega, shadow, shiny, height, weight) "
-                + "VALUES (:number, :code, :id, :nextEvolution, :prevEvolution, :name, :typeOne, :typeTwo, :color, :attack, :defense, :health, :combatPower, :region, :legendary, :mythical, :mega, :shadow, :shiny, :height, :weight)")
+        .sql("MERGE INTO pokedex_entry AS t" + " USING (" + " VALUES (:id, :number) ) AS s (id, number)"
+            + " ON t.id=s.id" + " WHEN MATCHED THEN" + " UPDATE SET t.number = s.number" + " WHEN NOT MATCHED THEN"
+            + " INSERT (number, id, name, color, attack, defense, health, combat_power, legendary, mythical, mega, shadow, shiny, height, weight) "
+            + " VALUES (:number, :id, :name, :color, :attack, :defense, :health, :combatPower, :legendary, :mythical, :mega, :shadow, :shiny, :height, :weight) ")
         .dataSource(dataSource).build();
 
   }
@@ -180,11 +182,19 @@ public class BatchConfig {
   }
 
   @Bean
+  JdbcBatchItemWriter<Region> regionWriter(DataSource dataSource) {
+    return new JdbcBatchItemWriterBuilder<Region>()
+        .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
+        .sql("INSERT INTO region (id, name) VALUES (:id, :name)").dataSource(dataSource).build();
+  }
+
+  @Bean
   public Job readData(JobCompletionNotificationListener listener, Step importTypes, Step importTypeProperties,
-      Step importFastMoves, Step importChargedMoves, Step step1) {
+      Step importFastMoves, Step importChargedMoves, Step importRegions, Step importPokedexEntries,
+      Step importPokedexEntriesProperties) {
     return jobBuilderFactory.get("importUserJob").incrementer(new RunIdIncrementer()).listener(listener)
-        .start(importTypes).next(importTypeProperties).next(importFastMoves).next(importChargedMoves).next(step1)
-        .build();
+        .start(importTypes).next(importTypeProperties).next(importFastMoves).next(importChargedMoves)
+        .next(importRegions).next(importPokedexEntries).next(importPokedexEntriesProperties).build();
   }
 
   @Bean
@@ -212,9 +222,21 @@ public class BatchConfig {
   }
 
   @Bean
-  public Step step1(JdbcBatchItemWriter<PokedexEntry> writer) {
-    return stepBuilderFactory.get("step1").<PokedexInput, PokedexEntry>chunk(10).reader(pokedexReader())
+  public Step importRegions(JdbcBatchItemWriter<Region> writer) {
+    return stepBuilderFactory.get("importRegions").<RegionInput, Region>chunk(10).reader(regionReader())
+        .processor(regionProcessor()).writer(writer).build();
+  }
+
+  @Bean
+  public Step importPokedexEntries(JdbcBatchItemWriter<PokedexEntry> writer) {
+    return stepBuilderFactory.get("importPokedexEntries").<PokedexInput, PokedexEntry>chunk(1).reader(pokedexReader())
         .processor(pokedexProcessor()).writer(writer).build();
+  }
+
+  @Bean
+  public Step importPokedexEntriesProperties(JdbcBatchItemWriter<PokedexEntry> writer) {
+    return stepBuilderFactory.get("importPokedexEntriesProperties").<PokedexInput, PokedexEntry>chunk(1)
+        .reader(pokedexReader()).processor(pokedexProcessor()).writer(writer).build();
   }
 
 }

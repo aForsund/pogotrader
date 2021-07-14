@@ -15,4 +15,6 @@ public interface PokedexRepository extends CrudRepository<PokedexEntry, Integer>
 
   HashSet<PokedexEntry> findAll();
 
+  boolean existsById(int id);
+
 }

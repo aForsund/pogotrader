@@ -17,6 +17,9 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
+@JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
+    "notEffectiveAgainst", "fastMoves", "chargedMoves", "type", "pokedexEntries", "pokedexRegionEntries",
+    "nextEvolution", "prevEvolution", "typing", "region", "move" })
 public class Type {
 
   @Id
@@ -27,57 +30,59 @@ public class Type {
 
   // Avoid infinite recursion when creating JSON response
   @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
-      "notEffectiveAgainst", "fastMoves", "chargedMoves" })
+      "notEffectiveAgainst", "fastMoves", "chargedMoves", "pokedexEntries" })
   @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(name = "weak_to")
   private Set<Type> weakTo = new HashSet<>();
 
   // Avoid infinite recursion when creating JSON response
   @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
-      "notEffectiveAgainst", "fastMoves", "chargedMoves" })
+      "notEffectiveAgainst", "fastMoves", "chargedMoves", "pokedexEntries" })
   @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(name = "strong_against")
   private Set<Type> strongAgainst = new HashSet<>();
 
   // Avoid infinite recursion when creating JSON response
   @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
-      "notEffectiveAgainst", "fastMoves", "chargedMoves" })
+      "notEffectiveAgainst", "fastMoves", "chargedMoves", "pokedexEntries" })
   @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(name = "resistant_to")
   private Set<Type> resistantTo = new HashSet<>();
 
   // Avoid infinite recursion when creating JSON response
   @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
-      "notEffectiveAgainst", "fastMoves", "chargedMoves" })
+      "notEffectiveAgainst", "fastMoves", "chargedMoves", "pokedexEntries" })
   @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(name = "not_very_effective_against")
   private Set<Type> notVeryEffectiveAgainst = new HashSet<>();
 
   // Avoid infinite recursion when creating JSON response
   @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
-      "notEffectiveAgainst", "fastMoves", "chargedMoves" })
+      "notEffectiveAgainst", "fastMoves", "chargedMoves", "pokedexEntries" })
   @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(name = "immune_to")
   private Set<Type> immuneTo = new HashSet<>();
 
   // Avoid infinite recursion when creating JSON response
   @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
-      "notEffectiveAgainst", "fastMoves", "chargedMoves" })
+      "notEffectiveAgainst", "fastMoves", "chargedMoves", "pokedexEntries" })
   @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(name = "not_effective_against")
   private Set<Type> notEffectiveAgainst = new HashSet<>();
 
   @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
-      "notEffectiveAgainst", "fastMoves", "chargedMoves" })
+      "notEffectiveAgainst", "fastMoves", "chargedMoves", "pokedexEntries" })
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "type")
   private Set<FastMove> fastMoves = new HashSet<>();
 
   @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
-      "notEffectiveAgainst", "fastMoves", "chargedMoves" })
+      "notEffectiveAgainst", "fastMoves", "chargedMoves", "pokedexEntries" })
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "type")
   private Set<ChargedMove> chargedMoves = new HashSet<>();
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "typing")
+  @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
+      "notEffectiveAgainst", "fastMoves", "chargedMoves", "pokedexEntries" })
+  @ManyToMany(cascade = CascadeType.ALL, mappedBy = "typing")
   private Set<PokedexEntry> pokedexEntries = new HashSet<>();
 
   public Type() {
@@ -169,7 +174,7 @@ public class Type {
   }
 
   public Set<PokedexEntry> getPokedexEntries() {
-    return pokedexEntries;
+    return this.pokedexEntries;
   }
 
   public void addPokedexEntry(PokedexEntry pokedexEntry) {

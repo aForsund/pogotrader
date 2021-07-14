@@ -3,7 +3,6 @@ package org.example.pogotrader.data;
 public class PokedexInput {
 
   private String number;
-  private String code;
   private String id;
   private String nextEvolution;
   private String prevEvolution;
@@ -30,14 +29,6 @@ public class PokedexInput {
 
   public void setNumber(String number) {
     this.number = number;
-  }
-
-  public String getCode() {
-    return code;
-  }
-
-  public void setCode(String code) {
-    this.code = code;
   }
 
   public String getId() {

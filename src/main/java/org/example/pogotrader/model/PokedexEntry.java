@@ -6,24 +6,38 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 
 import javax.persistence.CascadeType;
 
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PokedexEntry {
 
   @Id
   private int id;
   private int number;
-  private int code;
+
+  // "typing",
+
   @OneToOne
+  @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
+      "notEffectiveAgainst", "fastMoves", "chargedMoves", "type", "pokedexEntries", "pokedexRegionEntries",
+      "nextEvolution", "prevEvolution", "region", "move" })
+  @JoinTable(name = "pokedex_next_evolution")
+
   private PokedexEntry nextEvolution;
+
   @OneToOne
+  @JoinTable(name = "pokedex_prev_evolution")
   private PokedexEntry prevEvolution;
+
   private String name;
 
   private String color;
@@ -31,14 +45,11 @@ public class PokedexEntry {
   private int defense;
   private int health;
   private int combatPower;
-
-  @OneToOne
-  private Region region;
-  private boolean isLegendary;
-  private boolean isMythical;
-  private boolean hasMega;
-  private boolean isShadow;
-  private boolean hasShiny;
+  private boolean legendary;
+  private boolean mythical;
+  private boolean mega;
+  private boolean shadow;
+  private boolean shiny;
   private double height;
   private double weight;
 
@@ -74,24 +85,23 @@ public class PokedexEntry {
   private Set<ChargedMove> legacyChargedMoves = new HashSet<>();
 
   // Typing
+
   @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(name = "pokedex_entry_type", joinColumns = {
       @JoinColumn(name = "pokedex_entry_id") }, inverseJoinColumns = { @JoinColumn(name = "type_id") })
-  private Set<Type> typing;
+  private Set<Type> typing = new HashSet<>();
+
+  // Region
+  @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "region_id", referencedColumnName = "id")
+  private Region region;
 
   // Constructors
   public PokedexEntry() {
   }
 
-  public PokedexEntry(int number, String name) {
-    this.number = number;
-    this.name = name;
-  }
-
-  public PokedexEntry(int id, int number, String name) {
-    this(number, name);
+  public PokedexEntry(int id) {
     this.id = id;
-
   }
 
   // Getters & Setters
@@ -101,14 +111,6 @@ public class PokedexEntry {
 
   public void setNumber(int number) {
     this.number = number;
-  }
-
-  public int getCode() {
-    return code;
-  }
-
-  public void setCode(int code) {
-    this.code = code;
   }
 
   public int getId() {
@@ -125,10 +127,6 @@ public class PokedexEntry {
 
   public void setNextEvolution(PokedexEntry nextEvolution) {
     this.nextEvolution = nextEvolution;
-  }
-
-  public PokedexEntry getPreviousEvolution() {
-    return prevEvolution;
   }
 
   public void setPrevEvolution(PokedexEntry prevEvolution) {
@@ -200,43 +198,43 @@ public class PokedexEntry {
   }
 
   public boolean isLegendary() {
-    return this.isLegendary;
+    return this.legendary;
   }
 
   public void setLegendary(boolean legendary) {
-    this.isLegendary = legendary;
+    this.legendary = legendary;
   }
 
   public boolean isMythical() {
-    return this.isMythical;
+    return this.mythical;
   }
 
   public void setMythical(boolean mythical) {
-    this.isMythical = mythical;
+    this.mythical = mythical;
   }
 
   public boolean isMega() {
-    return hasMega;
+    return mega;
   }
 
   public void setMega(boolean mega) {
-    this.hasMega = mega;
+    this.mega = mega;
   }
 
   public boolean isShadow() {
-    return this.isShadow;
+    return this.shadow;
   }
 
   public void setShadow(boolean shadow) {
-    this.isShadow = shadow;
+    this.shadow = shadow;
   }
 
   public boolean hasShiny() {
-    return this.hasShiny;
+    return this.shiny;
   }
 
   public void setShiny(boolean shiny) {
-    this.hasShiny = shiny;
+    this.shiny = shiny;
   }
 
   public double getHeight() {
@@ -259,20 +257,12 @@ public class PokedexEntry {
     return prevEvolution;
   }
 
-  public boolean isHasMega() {
-    return hasMega;
+  public void seMega(boolean hasMega) {
+    this.mega = hasMega;
   }
 
-  public void setHasMega(boolean hasMega) {
-    this.hasMega = hasMega;
-  }
-
-  public boolean isHasShiny() {
-    return hasShiny;
-  }
-
-  public void setHasShiny(boolean hasShiny) {
-    this.hasShiny = hasShiny;
+  public boolean isShiny() {
+    return shiny;
   }
 
   public Set<FastMove> getFastMoves() {
@@ -339,11 +329,24 @@ public class PokedexEntry {
     }
 
     PokedexEntry comparedEntry = (PokedexEntry) compared;
-    if (comparedEntry.getCode() == this.getCode()) {
+    if (comparedEntry.getId() == this.getId()) {
       return true;
     }
 
     return false;
+  }
+
+  @Override
+  public int hashCode() {
+    int hashCode;
+    try {
+      hashCode = Integer.parseInt(this.name) + this.id;
+
+    } catch (NumberFormatException e) {
+      hashCode = 0;
+    }
+    return hashCode;
+
   }
 
 }

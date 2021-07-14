@@ -17,7 +17,12 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Id;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+// "type", "pokedexEntries",
+
 @MappedSuperclass
+@JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
+    "notEffectiveAgainst", "fastMoves", "chargedMoves", "pokedexRegionEntries", "nextEvolution", "prevEvolution",
+    "typing", "region", "move" })
 public abstract class Move {
 
   @Id
@@ -26,8 +31,6 @@ public abstract class Move {
 
   private String name;
 
-  @JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
-      "notEffectiveAgainst", "fastMoves", "chargedMoves" })
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "type_id", referencedColumnName = "id")
   private Type type;
