@@ -4,6 +4,24 @@ Content-Type: application/json
 
 ###
 
+
+GET http://localhost:8080/api/pokedex/name/?name=bulbasaur
+Content-Type: application/json
+
+###
+
+
+GET http://localhost:8080/api/pokedex/number/?number=2
+Content-Type: application/json
+
+###
+
+
+GET http://localhost:8080/api/pokedex/test
+Content-Type: application/json
+
+###
+
 GET http://localhost:8080/api/typings
 Content-Type: application/json
 
@@ -26,5 +44,5 @@ GET http://localhost:8080/api/chargedMoves
 Content-Type: application/json
 
 ###
-GET http://localhost:8080/api/chargedMove/?name=Ancient Power
+GET http://localhost:8080/api/chargedMove/?=Ancient Power
 Content-Type: application/json
