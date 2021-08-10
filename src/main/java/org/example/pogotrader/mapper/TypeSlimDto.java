@@ -1,14 +1,19 @@
-package org.example.pogotrader.mapstruct;
+package org.example.pogotrader.mapper;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class TypeSlimDto {
+import org.springframework.hateoas.RepresentationModel;
+
+public class TypeSlimDto extends RepresentationModel<TypeSlimDto> {
 
   @JsonProperty("id")
   private int id;
 
   @JsonProperty("name")
   private String name;
+
+  @JsonProperty("test")
+  private String test = "test...";
 
   public int getId() {
     return id;

@@ -4,9 +4,9 @@ import org.example.pogotrader.repository.PokedexRepository;
 
 import java.util.HashSet;
 
-import org.example.pogotrader.mapstruct.MapStructMapper;
-import org.example.pogotrader.mapstruct.PokedexEntryDto;
-
+import org.example.pogotrader.mapper.MapStructMapper;
+import org.example.pogotrader.mapper.PokedexEntryDto;
+import org.example.pogotrader.mapper.TypeSlimDto;
 import org.example.pogotrader.model.PokedexEntry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.http.ResponseEntity;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController
 @RequestMapping("api/pokedex")
@@ -37,11 +40,16 @@ public class PokedexController {
 
   @GetMapping("/number")
   public ResponseEntity<HashSet<PokedexEntryDto>> getByNumber(@RequestParam String number) {
-    return new ResponseEntity<HashSet<PokedexEntryDto>>(
-        pokemonMapper.pokedexEntryToPokedexEntryDto(pokedexRepository.findByNumber(Integer.parseInt(number))),
-        HttpStatus.OK);
+    
+    HashSet<PokedexEntryDto> pokedexEntries = pokemonMapper.pokedexEntryToPokedexEntryDto(pokedexRepository.findByNumber(Integer.parseInt(number)));
+    for (PokedexEntryDto entry : pokedexEntries) {
+      entry.add(linkTo(methodOn(PokedexController.class).getById(entry.getId())).withSelfRel());
+    }
+    
+    return new ResponseEntity<HashSet<PokedexEntryDto>>(pokedexEntries, HttpStatus.OK);
 
   }
+
 
   @GetMapping("/name")
   public ResponseEntity<HashSet<PokedexEntryDto>> getByName(@PathVariable(value = "name") String name) {
@@ -54,6 +62,12 @@ public class PokedexController {
   public ResponseEntity<PokedexEntryDto> getByNumber() {
     return new ResponseEntity<>(pokemonMapper.pokedexEntryToPokedexEntryDto(pokedexRepository.findById(0)),
         HttpStatus.OK);
+  }
+
+  @GetMapping("/id")
+  public ResponseEntity<PokedexEntryDto> getById(@RequestParam int id) {
+    return new ResponseEntity<>(
+      pokemonMapper.pokedexEntryToPokedexEntryDto(pokedexRepository.findById(id)), HttpStatus.OK);
   }
 
 }
