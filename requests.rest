@@ -16,6 +16,10 @@ Content-Type: application/json
 
 ###
 
+GET http://localhost:8080/api/pokedex/id?id=21
+Content-Type: application/json
+
+###
 
 GET http://localhost:8080/api/pokedex/test
 Content-Type: application/json
@@ -45,4 +49,8 @@ Content-Type: application/json
 
 ###
 GET http://localhost:8080/api/chargedMove/?=Ancient Power
+Content-Type: application/json
+
+###
+GET http://localhost:8080/api/type/id/11
 Content-Type: application/json

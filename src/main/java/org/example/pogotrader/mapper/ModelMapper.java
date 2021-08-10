@@ -7,7 +7,7 @@ import org.example.pogotrader.model.Type;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface MapStructMapper {
+public interface ModelMapper {
 
   HashSet<PokedexEntryDto> pokedexEntryToPokedexEntryDto(HashSet<PokedexEntry> hashSet);
 

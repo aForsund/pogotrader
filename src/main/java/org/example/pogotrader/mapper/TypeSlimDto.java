@@ -12,9 +12,6 @@ public class TypeSlimDto extends RepresentationModel<TypeSlimDto> {
   @JsonProperty("name")
   private String name;
 
-  @JsonProperty("test")
-  private String test = "test...";
-
   public int getId() {
     return id;
   }

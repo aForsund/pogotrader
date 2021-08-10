@@ -17,7 +17,6 @@ public class TypeController {
 
   private TypeRepository typeRepository;
   private TypeSlimDtoModelAssembler assembler;
-  
 
   @Autowired
   public TypeController(TypeRepository typeRepository, TypeSlimDtoModelAssembler assembler) {
@@ -35,10 +34,10 @@ public class TypeController {
     return typeRepository.findByName(name);
   }
 
- // @GetMapping("api/type")
- // public Type findById(@RequestParam String id) {
- //   return typeRepository.findById(Integer.parseInt(id));
- // }
+  // @GetMapping("api/type")
+  // public Type findById(@RequestParam String id) {
+  // return typeRepository.findById(Integer.parseInt(id));
+  // }
 
   @GetMapping("api/type/id/{id}")
   public ResponseEntity<TypeSlimDto> findById(@PathVariable int id) {
