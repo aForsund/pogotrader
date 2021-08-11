@@ -31,7 +31,7 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:8080/api/type/?name=Water
+GET http://localhost:8080/api/type/name/Fighting
 Content-Type: application/json
 
 

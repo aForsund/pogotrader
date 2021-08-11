@@ -1,6 +1,8 @@
 package org.example.pogotrader.controller;
 
 import org.example.pogotrader.repository.TypeRepository;
+import org.example.pogotrader.mapper.TypeDto;
+import org.example.pogotrader.mapper.TypeDtoModelAssembler;
 import org.example.pogotrader.mapper.TypeSlimDto;
 import org.example.pogotrader.mapper.TypeSlimDtoModelAssembler;
 import org.example.pogotrader.model.Type;
@@ -16,12 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class TypeController {
 
   private TypeRepository typeRepository;
-  private TypeSlimDtoModelAssembler assembler;
+  private TypeSlimDtoModelAssembler typeSlimAssembler;
+  private TypeDtoModelAssembler typeAssembler;
 
   @Autowired
-  public TypeController(TypeRepository typeRepository, TypeSlimDtoModelAssembler assembler) {
+  public TypeController(TypeRepository typeRepository, TypeSlimDtoModelAssembler typeSlimAssembler, TypeDtoModelAssembler typeAssembler) {
     this.typeRepository = typeRepository;
-    this.assembler = assembler;
+    this.typeSlimAssembler = typeSlimAssembler;
+    this.typeAssembler = typeAssembler;
   }
 
   @GetMapping("/api/typings")
@@ -29,9 +33,9 @@ public class TypeController {
     return typeRepository.findAll();
   }
 
-  @GetMapping("api/type")
-  public Type findByName(@RequestParam String name) {
-    return typeRepository.findByName(name);
+  @GetMapping("api/type/name/{name}")
+  public ResponseEntity<TypeDto> findByName(@PathVariable String name) {
+    return new ResponseEntity<>(typeAssembler.toModel(typeRepository.findByNameIgnoreCase(name)), HttpStatus.OK);
   }
 
   // @GetMapping("api/type")
@@ -40,8 +44,8 @@ public class TypeController {
   // }
 
   @GetMapping("api/type/id/{id}")
-  public ResponseEntity<TypeSlimDto> findById(@PathVariable int id) {
-    return new ResponseEntity<>(assembler.toModel(typeRepository.findById(id)), HttpStatus.OK);
+  public ResponseEntity<TypeDto> findById(@PathVariable int id) {
+    return new ResponseEntity<>(typeAssembler.toModel(typeRepository.findById(id)), HttpStatus.OK);
   }
 
 }

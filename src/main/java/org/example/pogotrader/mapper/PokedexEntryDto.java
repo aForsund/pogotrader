@@ -17,8 +17,8 @@ public class PokedexEntryDto extends RepresentationModel<PokedexEntryDto>{
   @JsonProperty("name")
   private String name;
 
-  @JsonProperty("type")
-  private Set<TypeSlimDto> typing;
+  @JsonProperty("types")
+  private Set<TypeSlimDto> types;
 
   public void setId(int id) {
     this.id = id;
@@ -44,12 +44,16 @@ public class PokedexEntryDto extends RepresentationModel<PokedexEntryDto>{
     return this.name;
   }
 
-  public void setTyping(Set<TypeSlimDto> typing) {
-    this.typing = typing;
+  public void setTyping(Set<TypeSlimDto> types) {
+    this.types = types;
+  }
+
+  public void addTyping(TypeSlimDto type) {
+    this.types.add(type);
   }
 
   public Set<TypeSlimDto> getTyping() {
-    return this.typing;
+    return this.types;
   }
 
 }

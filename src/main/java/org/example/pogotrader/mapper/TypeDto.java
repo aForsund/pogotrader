@@ -1,10 +1,15 @@
 package org.example.pogotrader.mapper;
 
+import org.example.pogotrader.model.Type;
+
+import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class TypeDto {
+import org.springframework.hateoas.RepresentationModel;
+
+public class TypeDto extends RepresentationModel<TypeDto> {
 
   @JsonProperty("id")
   private int id;
@@ -13,7 +18,7 @@ public class TypeDto {
   private String name;
 
   @JsonProperty("weakTo")
-  private Set<TypeSlimDto> weakTo;
+  private HashSet<TypeSlimDto> weakTo;
 
   @JsonProperty("strongAgainst")
   private Set<TypeSlimDto> strongAgainst;
@@ -43,13 +48,19 @@ public class TypeDto {
     this.name = name;
   }
 
-  public Set<TypeSlimDto> getWeakTo() {
+  public HashSet<TypeSlimDto> getWeakTo() {
     return weakTo;
   }
 
-  public void setWeakTo(Set<TypeSlimDto> weakTo) {
+  public void setWeakTo(HashSet<TypeSlimDto> weakTo) {
     this.weakTo = weakTo;
   }
+
+  public void addWeakTo(TypeSlimDto weakTo) {
+    this.weakTo.add(weakTo);
+  }
+
+
 
   public Set<TypeSlimDto> getStrongAgainst() {
     return strongAgainst;
@@ -57,6 +68,7 @@ public class TypeDto {
 
   public void setStrongAgainst(Set<TypeSlimDto> strongAgainst) {
     this.strongAgainst = strongAgainst;
+  
   }
 
   public Set<TypeSlimDto> getResistantTo() {

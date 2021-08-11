@@ -23,6 +23,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @RequestMapping("api/pokedex")
 public class PokedexController {
 
+
   private ModelMapper pokemonMapper;
   private PokedexRepository pokedexRepository;
 
