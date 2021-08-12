@@ -4,6 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.springframework.hateoas.RepresentationModel;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Data
 public class TypeSlimDto extends RepresentationModel<TypeSlimDto> {
 
   @JsonProperty("id")
@@ -12,20 +19,10 @@ public class TypeSlimDto extends RepresentationModel<TypeSlimDto> {
   @JsonProperty("name")
   private String name;
 
-  public int getId() {
-    return id;
+  @Override
+  public String toString() {
+    return "id: " + this.id + ", " + this.name;
   }
 
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
+  
 }

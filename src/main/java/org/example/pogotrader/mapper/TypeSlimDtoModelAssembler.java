@@ -15,7 +15,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 public class TypeSlimDtoModelAssembler implements RepresentationModelAssembler<Type, TypeSlimDto> {
 
   @Autowired
-  private ModelMapper mapper;
+  private TypeMapper mapper;
 
   @Override
   public TypeSlimDto toModel(Type type) {

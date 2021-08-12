@@ -2,9 +2,9 @@ package org.example.pogotrader.controller;
 
 import org.example.pogotrader.repository.PokedexRepository;
 
-import java.util.HashSet;
+import java.util.Set;
 
-import org.example.pogotrader.mapper.ModelMapper;
+import org.example.pogotrader.mapper.PokedexEntryMapper;
 import org.example.pogotrader.mapper.PokedexEntryDto;
 import org.example.pogotrader.model.PokedexEntry;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +24,11 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 public class PokedexController {
 
 
-  private ModelMapper pokemonMapper;
+  private PokedexEntryMapper pokemonMapper;
   private PokedexRepository pokedexRepository;
 
   @Autowired
-  public PokedexController(ModelMapper pokemonMapper, PokedexRepository pokedexRepository) {
+  public PokedexController(PokedexEntryMapper pokemonMapper, PokedexRepository pokedexRepository) {
     this.pokedexRepository = pokedexRepository;
     this.pokemonMapper = pokemonMapper;
   }
@@ -39,20 +39,20 @@ public class PokedexController {
   }
 
   @GetMapping("/number")
-  public ResponseEntity<HashSet<PokedexEntryDto>> getByNumber(@RequestParam String number) {
+  public ResponseEntity<Set<PokedexEntryDto>> getByNumber(@RequestParam String number) {
 
-    HashSet<PokedexEntryDto> pokedexEntries = pokemonMapper
+    Set<PokedexEntryDto> pokedexEntries = pokemonMapper
         .pokedexEntryToPokedexEntryDto(pokedexRepository.findByNumber(Integer.parseInt(number)));
     for (PokedexEntryDto entry : pokedexEntries) {
       entry.add(linkTo(methodOn(PokedexController.class).getById(entry.getId())).withSelfRel());
     }
 
-    return new ResponseEntity<HashSet<PokedexEntryDto>>(pokedexEntries, HttpStatus.OK);
+    return new ResponseEntity<Set<PokedexEntryDto>>(pokedexEntries, HttpStatus.OK);
 
   }
 
   @GetMapping("/name")
-  public ResponseEntity<HashSet<PokedexEntryDto>> getByName(@PathVariable(value = "name") String name) {
+  public ResponseEntity<Set<PokedexEntryDto>> getByName(@PathVariable(value = "name") String name) {
     return new ResponseEntity<>(
         pokemonMapper.pokedexEntryToPokedexEntryDto(pokedexRepository.findByNameIgnoreCase(name)), HttpStatus.OK);
 
