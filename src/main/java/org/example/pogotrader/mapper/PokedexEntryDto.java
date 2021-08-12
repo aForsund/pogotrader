@@ -4,9 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.springframework.hateoas.RepresentationModel;
 
+import lombok.Data;
+
 import java.util.Set;
 
-public class PokedexEntryDto extends RepresentationModel<PokedexEntryDto>{
+@Data
+public class PokedexEntryDto extends RepresentationModel<PokedexEntryDto> {
 
   @JsonProperty("id")
   private int id;
@@ -27,7 +30,7 @@ public class PokedexEntryDto extends RepresentationModel<PokedexEntryDto>{
   public int getId() {
     return this.id;
   }
-  
+
   public void setNumber(int number) {
     this.number = number;
   }

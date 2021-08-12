@@ -1,7 +1,5 @@
 package org.example.pogotrader.mapper;
 
-import org.example.pogotrader.model.Type;
-
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,7 +14,7 @@ import lombok.Setter;
 @Setter
 @Data
 public class TypeDto extends RepresentationModel<TypeDto> {
-  
+
   @JsonProperty("id")
   private int id;
 

@@ -20,34 +20,31 @@ public class TypeController {
   private TypeRepository typeRepository;
   private TypeSlimDtoModelAssembler typeSlimAssembler;
   private TypeDtoModelAssembler typeAssembler;
-  
 
   @Autowired
-  public TypeController(TypeRepository typeRepository, TypeSlimDtoModelAssembler typeSlimAssembler, TypeDtoModelAssembler typeAssembler) {
+  public TypeController(TypeRepository typeRepository, TypeSlimDtoModelAssembler typeSlimAssembler,
+      TypeDtoModelAssembler typeAssembler) {
     this.typeRepository = typeRepository;
     this.typeSlimAssembler = typeSlimAssembler;
     this.typeAssembler = typeAssembler;
   }
 
-  @GetMapping("/api/typings")
-  public Iterable<Type> findAll() {
-    return typeRepository.findAll();
-  }
+  // @GetMapping("/api/type/")
+  // public ResponseEntity<Set<TypeDto>> findAll() {
+  // return new
+  // ResponseEntity<Set<TypeDto>>(typeAssembler.toCollectionModel(typeRepository.findAll()),
+  // HttpStatus.OK);
+
+  // }
 
   @GetMapping("api/type/name/{name}")
   public ResponseEntity<TypeDto> findByName(@PathVariable String name) {
     return new ResponseEntity<>(typeAssembler.toModel(typeRepository.findByNameIgnoreCase(name)), HttpStatus.OK);
   }
 
-  // @GetMapping("api/type")
-  // public Type findById(@RequestParam String id) {
-  // return typeRepository.findById(Integer.parseInt(id));
-  // }
-
   @GetMapping("api/type/id/{id}")
   public ResponseEntity<TypeDto> findById(@PathVariable int id) {
     return new ResponseEntity<>(typeAssembler.toModel(typeRepository.findById(id)), HttpStatus.OK);
-    //return new ResponseEntity<>(typeMapper.typeToTypeDto(typeRepository.findById(id)), HttpStatus.OK);
   }
 
 }
