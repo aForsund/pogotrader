@@ -8,21 +8,15 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 @Entity
-@JsonIgnoreProperties({ "weakTo", "strongAgainst", "resistantTo", "notVeryEffectiveAgainst", "immuneTo",
-    "notEffectiveAgainst", "fastMoves", "chargedMoves", "type", "pokedexEntries", "pokedexRegionEntries",
-    "nextEvolution", "prevEvolution", "typing", "region", "move" })
 public class Region {
 
   @Id
   private int id;
   private String name;
 
-  // @JsonIgnoreProperties({ " pokedexRegionEntries " })
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "region")
-  private Set<PokedexEntry> pokedexRegionEntries = new HashSet<>();
+  private Set<PokedexEntry> regionEntries = new HashSet<>();
 
   public Region() {
   }
@@ -43,12 +37,12 @@ public class Region {
     return name;
   }
 
-  public void addPokedexRegionEntry(PokedexEntry entry) {
-    this.pokedexRegionEntries.add(entry);
+  public void addRegionEntry(PokedexEntry entry) {
+    this.regionEntries.add(entry);
   }
 
-  public Set<PokedexEntry> getPokedexRegionEntries() {
-    return this.pokedexRegionEntries;
+  public Set<PokedexEntry> getRegionEntries() {
+    return this.regionEntries;
   }
 
   @Override

@@ -1,4 +1,4 @@
-package org.example.pogotrader.mapper;
+package org.example.pogotrader.dto;
 
 import java.util.Set;
 

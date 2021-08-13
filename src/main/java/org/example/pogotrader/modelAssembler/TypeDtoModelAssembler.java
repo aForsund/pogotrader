@@ -1,17 +1,17 @@
-package org.example.pogotrader.mapper;
+package org.example.pogotrader.modelAssembler;
 
 import org.example.pogotrader.controller.TypeController;
+import org.example.pogotrader.dto.TypeDto;
+import org.example.pogotrader.dto.TypeSlimDto;
+import org.example.pogotrader.mapper.TypeMapper;
 import org.example.pogotrader.model.Type;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.CollectionModel;
+
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 

@@ -53,7 +53,7 @@ public class PokedexProcessor implements ItemProcessor<PokedexInput, PokedexEntr
     // Set & save region
     System.out.println("adding region");
     pokemon.setRegion(regionService.findById(Integer.parseInt(pokedexInput.getRegion())));
-    regionService.findById(Integer.parseInt(pokedexInput.getRegion())).addPokedexRegionEntry(pokemon);
+    regionService.findById(Integer.parseInt(pokedexInput.getRegion())).addRegionEntry(pokemon);
     // regionService.save(regionService.findById(Integer.parseInt(pokedexInput.getRegion())));
 
     // Set & save type

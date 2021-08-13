@@ -1,4 +1,4 @@
-package org.example.pogotrader.mapper;
+package org.example.pogotrader.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -19,10 +19,4 @@ public class TypeSlimDto extends RepresentationModel<TypeSlimDto> {
   @JsonProperty("name")
   private String name;
 
-  @Override
-  public String toString() {
-    return "id: " + this.id + ", " + this.name;
-  }
-
-  
 }

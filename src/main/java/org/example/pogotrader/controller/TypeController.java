@@ -1,11 +1,8 @@
 package org.example.pogotrader.controller;
 
 import org.example.pogotrader.repository.TypeRepository;
-import org.example.pogotrader.mapper.TypeDto;
-import org.example.pogotrader.mapper.TypeDtoModelAssembler;
-
-import org.example.pogotrader.mapper.TypeSlimDtoModelAssembler;
-import org.example.pogotrader.model.Type;
+import org.example.pogotrader.dto.TypeDto;
+import org.example.pogotrader.modelAssembler.TypeDtoModelAssembler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,14 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class TypeController {
 
   private TypeRepository typeRepository;
-  private TypeSlimDtoModelAssembler typeSlimAssembler;
   private TypeDtoModelAssembler typeAssembler;
 
   @Autowired
-  public TypeController(TypeRepository typeRepository, TypeSlimDtoModelAssembler typeSlimAssembler,
-      TypeDtoModelAssembler typeAssembler) {
+  public TypeController(TypeRepository typeRepository, TypeDtoModelAssembler typeAssembler) {
     this.typeRepository = typeRepository;
-    this.typeSlimAssembler = typeSlimAssembler;
     this.typeAssembler = typeAssembler;
   }
 
