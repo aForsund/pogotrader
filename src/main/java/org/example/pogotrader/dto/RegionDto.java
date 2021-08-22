@@ -14,13 +14,13 @@ import lombok.Setter;
 @Setter
 @Data
 public class RegionDto extends RepresentationModel<RegionDto> {
-    
-    @JsonProperty
-    private int id;
 
-    @JsonProperty
-    private String name;
+  @JsonProperty("id")
+  private int id;
 
-    @JsonProperty
-    private Set<PokedexEntrySlimDto> regionEntries;
+  @JsonProperty("name")
+  private String name;
+
+  @JsonProperty("regionEntries")
+  private Set<PokedexEntrySlimDto> regionEntries;
 }

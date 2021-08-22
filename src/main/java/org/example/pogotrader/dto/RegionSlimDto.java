@@ -2,18 +2,20 @@ package org.example.pogotrader.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import lombok.Data;
+import org.springframework.hateoas.RepresentationModel;
+
 import lombok.Getter;
 import lombok.Setter;
+import lombok.Data;
 
 @Getter
 @Setter
 @Data
-public class RegionSlimDto {
-    
-    @JsonProperty
-    private int id;
+public class RegionSlimDto extends RepresentationModel<RegionSlimDto> {
 
-    @JsonProperty
-    private String name;
+  @JsonProperty("id")
+  private int id;
+
+  @JsonProperty("name")
+  private String name;
 }
