@@ -1,6 +1,8 @@
 package org.example.pogotrader.modelAssembler;
 
+import org.example.pogotrader.controller.PokedexController;
 import org.example.pogotrader.controller.TypeController;
+import org.example.pogotrader.dto.PokedexEntrySlimDto;
 import org.example.pogotrader.dto.TypeDto;
 import org.example.pogotrader.dto.TypeSlimDto;
 import org.example.pogotrader.mapper.TypeMapper;
@@ -12,7 +14,6 @@ import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @Component
@@ -50,6 +51,12 @@ public class TypeDtoModelAssembler implements RepresentationModelAssembler<Type,
       Link selfLinkNotVeryEffectiveAgainst = linkTo(methodOn(TypeController.class).findById(entry.getId()))
           .withSelfRel();
       entry.add(selfLinkNotVeryEffectiveAgainst);
+    }
+
+    // Add pokedex entries
+    for (PokedexEntrySlimDto entry : typeDTO.getPokedexEntries()) {
+      Link selfLinkPokedexEntry = linkTo(methodOn(PokedexController.class).getById(entry.getId())).withSelfRel();
+      entry.add(selfLinkPokedexEntry);
     }
 
     return typeDTO;

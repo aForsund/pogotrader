@@ -14,6 +14,6 @@ public interface TypeMapper {
 
   TypeSlimDto typeToTypeSlimDto(Type type);
 
-  Set<TypeSlimDto> typeSetTypeSlimDtoSet(Set<Type> typeSet);
+  Set<TypeSlimDto> typeSetToTypeSlimDtoSet(Set<Type> typeSet);
 
 }

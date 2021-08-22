@@ -36,4 +36,7 @@ public class TypeDto extends RepresentationModel<TypeDto> {
   @JsonProperty("immuneTo")
   private Set<TypeSlimDto> immuneTo;
 
+  @JsonProperty("pokedexEntries")
+  private Set<PokedexEntrySlimDto> pokedexEntries;
+
 }

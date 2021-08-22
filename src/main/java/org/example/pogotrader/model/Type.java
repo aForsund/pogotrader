@@ -14,8 +14,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
-//import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 @Entity
 public class Type {
 
@@ -25,43 +23,35 @@ public class Type {
 
   private String name;
 
-   @ManyToMany(cascade = CascadeType.ALL)
+  @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(name = "weak_to")
   private Set<Type> weakTo = new HashSet<>();
-
 
   @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(name = "strong_against")
   private Set<Type> strongAgainst = new HashSet<>();
 
-
   @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(name = "resistant_to")
   private Set<Type> resistantTo = new HashSet<>();
-
 
   @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(name = "not_very_effective_against")
   private Set<Type> notVeryEffectiveAgainst = new HashSet<>();
 
-
   @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(name = "immune_to")
   private Set<Type> immuneTo = new HashSet<>();
-
 
   @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(name = "not_effective_against")
   private Set<Type> notEffectiveAgainst = new HashSet<>();
 
-
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "type")
   private Set<FastMove> fastMoves = new HashSet<>();
 
-
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "type")
   private Set<ChargedMove> chargedMoves = new HashSet<>();
-
 
   @ManyToMany(cascade = CascadeType.ALL, mappedBy = "typing")
   private Set<PokedexEntry> pokedexEntries = new HashSet<>();

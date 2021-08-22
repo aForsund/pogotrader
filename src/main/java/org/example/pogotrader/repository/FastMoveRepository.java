@@ -13,4 +13,6 @@ public interface FastMoveRepository extends CrudRepository<FastMove, Integer> {
 
   HashSet<FastMove> findAll();
 
+  FastMove findById(int id);
+
 }

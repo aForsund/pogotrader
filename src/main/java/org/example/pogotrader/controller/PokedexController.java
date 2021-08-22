@@ -17,20 +17,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.http.ResponseEntity;
 
-
 @RestController
 @RequestMapping("api/pokedex")
 public class PokedexController {
 
-
-  private PokedexEntryMapper pokemonMapper;
   private PokedexEntryDtoModelAssembler pokedexAssembler;
   private PokedexRepository pokedexRepository;
 
   @Autowired
-  public PokedexController(PokedexEntryMapper pokemonMapper, PokedexRepository pokedexRepository, PokedexEntryDtoModelAssembler pokedexAssembler) {
+  public PokedexController(PokedexRepository pokedexRepository, PokedexEntryDtoModelAssembler pokedexAssembler) {
     this.pokedexRepository = pokedexRepository;
-    this.pokemonMapper = pokemonMapper;
     this.pokedexAssembler = pokedexAssembler;
   }
 
@@ -42,30 +38,21 @@ public class PokedexController {
   @GetMapping("/number/{number}")
   public ResponseEntity<Set<PokedexEntryDto>> getByNumber(@PathVariable String number) {
     System.out.println("hi from pokedexController (number)");
-    Set<PokedexEntryDto> pokedexEntries = pokedexAssembler.toSet(pokedexRepository.findByNumber(Integer.parseInt(number)));
-        
-     
+    Set<PokedexEntryDto> pokedexEntries = pokedexAssembler
+        .toSet(pokedexRepository.findByNumber(Integer.parseInt(number)));
+
     return new ResponseEntity<Set<PokedexEntryDto>>(pokedexEntries, HttpStatus.OK);
 
   }
 
-  @GetMapping("/name")
+  @GetMapping("/name/{name}")
   public ResponseEntity<Set<PokedexEntryDto>> getByName(@PathVariable(value = "name") String name) {
-    return new ResponseEntity<>(
-        pokemonMapper.pokedexEntryToPokedexEntryDto(pokedexRepository.findByNameIgnoreCase(name)), HttpStatus.OK);
-
-  }
-
-  @GetMapping("/test")
-  public ResponseEntity<PokedexEntryDto> getByNumber() {
-    return new ResponseEntity<>(pokemonMapper.pokedexEntryToPokedexEntryDto(pokedexRepository.findById(0)),
-        HttpStatus.OK);
+    return new ResponseEntity<>(pokedexAssembler.toSet(pokedexRepository.findByNameIgnoreCase(name)), HttpStatus.OK);
   }
 
   @GetMapping("/id/{id}")
   public ResponseEntity<PokedexEntryDto> getById(@PathVariable int id) {
-    return new ResponseEntity<>(pokedexAssembler.toModel(pokedexRepository.findById(id)),
-        HttpStatus.OK);
+    return new ResponseEntity<>(pokedexAssembler.toModel(pokedexRepository.findById(id)), HttpStatus.OK);
   }
 
 }
