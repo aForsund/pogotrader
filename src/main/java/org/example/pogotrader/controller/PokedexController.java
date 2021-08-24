@@ -4,7 +4,6 @@ import org.example.pogotrader.repository.PokedexRepository;
 
 import java.util.Set;
 
-import org.example.pogotrader.mapper.PokedexEntryMapper;
 import org.example.pogotrader.dto.PokedexEntryDto;
 import org.example.pogotrader.model.PokedexEntry;
 import org.example.pogotrader.modelAssembler.PokedexEntryDtoModelAssembler;
